@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   ShoppingCart, DollarSign, Users, Package, 
   Clock, MessageSquare, ArrowUpRight, TrendingUp, 
@@ -75,13 +75,12 @@ export default function AdminDashboard() {
     { label: 'Total Customers', value: overview.total_customers, icon: Users, color: 'text-blue-400 bg-blue-500/10' },
     { label: 'Active Products', value: overview.active_products, icon: Package, color: 'text-indigo-400 bg-indigo-500/10' },
     { label: 'Pending Orders', value: overview.pending_orders, icon: Clock, color: 'text-amber-400 bg-amber-500/10' },
-    { label: 'Unread Messages', value: overview.unread_messages, icon: MessageSquare, color: 'text-purple-400 bg-purple-500/10' },
   ];
 
   return (
     <div className="space-y-8">
       {/* Top Metrics Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
         {statCards.map((card, idx) => {
           const Icon = card.icon;
           return (

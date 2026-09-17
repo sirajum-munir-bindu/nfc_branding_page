@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import React from 'react';
 import { 
-  User, Phone, Mail, Globe, MessageSquare, 
-  Download, Check, ExternalLink, Sparkles, Radio, Smartphone 
+  Phone, Mail, Globe, MessageSquare, 
+  Download, ExternalLink, Sparkles, Radio 
 } from 'lucide-react';
 
 const LinkedInIcon = ({ className }) => (
@@ -20,36 +19,6 @@ const InstagramIcon = ({ className }) => (
 );
 
 export default function DigitalProfile() {
-  const [vcardSaved, setVcardSaved] = useState(false);
-
-  const handleSaveContact = () => {
-    const vCardData = [
-      'BEGIN:VCARD',
-      'VERSION:3.0',
-      'N:Bindu;Sirajum;Munir;;',
-      'FN:Sirajum Munir Bindu',
-      'ORG:TapCard Global Ltd',
-      'TITLE:Founder & Chief Architect',
-      'TEL;TYPE=CELL:+8801700112233',
-      'EMAIL:bindu@tapcard.com',
-      'URL:https://tapcard.com',
-      'NOTE:Connected via TapCard NFC Smart Business Card',
-      'END:VCARD',
-    ].join('\r\n');
-
-    const blob = new Blob([vCardData], { type: 'text/vcard;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.setAttribute('download', 'Sirajum_Munir_Bindu_TapCard.vcf');
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-
-    setVcardSaved(true);
-    setTimeout(() => setVcardSaved(false), 3000);
-  };
-
   const socialLinks = [
     { name: 'WhatsApp Direct', icon: MessageSquare, value: '+880 1700 112233', color: 'text-emerald-400 bg-emerald-500/10' },
     { name: 'LinkedIn Profile', icon: LinkedInIcon, value: 'linkedin.com/in/smbindu', color: 'text-blue-400 bg-blue-500/10' },
@@ -59,7 +28,7 @@ export default function DigitalProfile() {
 
 
   return (
-    <section className="py-24 relative overflow-hidden bg-[#05070c]">
+    <section id="profile" className="py-24 relative overflow-hidden bg-[#05070c]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-mono uppercase tracking-wider">
@@ -142,44 +111,27 @@ export default function DigitalProfile() {
                 </p>
 
                 <div className="my-4">
-                  <button
-                    type="button"
-                    onClick={handleSaveContact}
-                    className={`w-full py-3 px-4 rounded-2xl font-bold text-xs flex items-center justify-center gap-2 shadow-lg transition-all duration-200 cursor-pointer ${
-                      vcardSaved
-                        ? 'bg-emerald-500 text-white'
-                        : 'bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white shadow-cyan-500/25'
-                    }`}
+                  <div
+                    className="w-full py-3 px-4 rounded-2xl font-bold text-xs flex items-center justify-center gap-2 shadow-lg bg-gradient-to-r from-blue-600 to-cyan-500 text-white shadow-cyan-500/25 cursor-default select-none pointer-events-none"
                   >
-                    {vcardSaved ? (
-                      <>
-                        <Check className="w-4 h-4" />
-                        <span>Contact vCard Downloaded!</span>
-                      </>
-                    ) : (
-                      <>
-                        <Download className="w-4 h-4" />
-                        <span>Save Contact to Phone</span>
-                      </>
-                    )}
-                  </button>
+                    <Download className="w-4 h-4" />
+                    <span>Save Contact to Phone</span>
+                  </div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-2 my-3">
-                  <a
-                    href="tel:+8801700112233"
-                    className="p-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08] hover:bg-white/[0.08] flex items-center justify-center gap-2 text-xs text-white transition-colors"
+                  <div
+                    className="p-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08] flex items-center justify-center gap-2 text-xs text-white cursor-default select-none pointer-events-none"
                   >
                     <Phone className="w-3.5 h-3.5 text-cyan-400" />
                     <span>Call Directly</span>
-                  </a>
-                  <a
-                    href="mailto:contact@tapcard.com"
-                    className="p-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08] hover:bg-white/[0.08] flex items-center justify-center gap-2 text-xs text-white transition-colors"
+                  </div>
+                  <div
+                    className="p-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08] flex items-center justify-center gap-2 text-xs text-white cursor-default select-none pointer-events-none"
                   >
                     <Mail className="w-3.5 h-3.5 text-cyan-400" />
                     <span>Email Direct</span>
-                  </a>
+                  </div>
                 </div>
 
                 <div className="space-y-2 mt-4 text-left">
@@ -188,7 +140,7 @@ export default function DigitalProfile() {
                     return (
                       <div
                         key={idx}
-                        className="p-2.5 rounded-xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-between hover:bg-white/[0.06] transition-colors cursor-pointer"
+                        className="p-2.5 rounded-xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-between cursor-default select-none pointer-events-none"
                       >
                         <div className="flex items-center gap-2.5">
                           <div className={`w-7 h-7 rounded-lg flex items-center justify-center ${link.color}`}>

@@ -37,14 +37,23 @@ class OrderCreateSerializer(serializers.Serializer):
             try:
                 product = Product.objects.get(id=product_id)
                 product_name = product.name
-                unit_price = float(product.discount_price if product.discount_price and product.discount_price > 0 else product.price)
+                is_vip = customization.get('package_tier') == 'VIP'
+                if is_vip:
+                    unit_price = float(product.vip_price if product.vip_price and product.vip_price > 0 else (float(product.regular_price or product.price) + 300))
+                else:
+                    reg = product.regular_price if product.regular_price and product.regular_price > 0 else product.price
+                    unit_price = float(product.discount_price if product.discount_price and product.discount_price > 0 else reg)
             except Product.DoesNotExist:
                 pass
         elif customization.get('edition'):
             product_name = f"TapCard {customization.get('edition')} Edition"
 
-        total_amount = unit_price * quantity
+        courier_fee = float(customization.get('courier_fee', 60.00))
+        total_amount = (unit_price * quantity) + courier_fee
 
+        payment_method = customization.get('payment_method', 'bkash')
+        trx_id = customization.get('trx_id', '')
+        
         order = Order.objects.create(
             customer_name=customer_name,
             customer_email=customer_email,
@@ -53,7 +62,7 @@ class OrderCreateSerializer(serializers.Serializer):
             total_amount=total_amount,
             notes=notes,
             status='Pending',
-            payment_status='Pending'
+            payment_status='Paid' if (trx_id and len(trx_id) > 4) else 'Pending'
         )
 
         OrderItem.objects.create(

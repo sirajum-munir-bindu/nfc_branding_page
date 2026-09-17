@@ -17,9 +17,7 @@ export default function Navbar({ onOpenOrderModal }) {
   const navLinks = [
     { name: 'Home', href: '#hero' },
     { name: 'How It Works', href: '#how-it-works' },
-    { name: 'Features', href: '#features' },
     { name: 'Cards', href: '#cards' },
-    { name: 'Customizer', href: '#customizer' },
     { name: 'Reviews', href: '#testimonials' },
     { name: 'FAQ', href: '#faq' },
   ];
@@ -44,19 +42,13 @@ export default function Navbar({ onOpenOrderModal }) {
               TapCard<span className="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
             </span>
             <span className="text-[10px] uppercase tracking-widest text-slate-400 font-medium -mt-1">
-              NFC Identity
+              E-Visiting Card
             </span>
           </div>
         </a>
 
 
         <div className="hidden md:flex items-center gap-3">
-          <Link
-            to="/admin/login"
-            className="text-xs lg:text-sm font-medium text-slate-300 hover:text-white px-3.5 py-2 rounded-lg hover:bg-white/[0.06] transition-colors"
-          >
-            Admin Login
-          </Link>
           <a
             href="#cards"
             className="relative inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-xs lg:text-sm text-white bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 shadow-lg shadow-blue-500/25 hover:shadow-cyan-500/35 transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0"
@@ -92,13 +84,6 @@ export default function Navbar({ onOpenOrderModal }) {
             ))}
           </div>
           <div className="pt-4 border-t border-white/10 flex flex-col gap-2.5">
-            <Link
-              to="/admin/login"
-              onClick={() => setMobileMenuOpen(false)}
-              className="w-full text-center py-2.5 rounded-lg border border-white/10 text-slate-300 font-medium text-sm hover:bg-white/[0.05]"
-            >
-              Admin Login
-            </Link>
             <a
               href="#cards"
               onClick={() => setMobileMenuOpen(false)}

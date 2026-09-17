@@ -3,16 +3,12 @@ import Navbar from '../components/Navbar';
 import Hero from '../components/Hero';
 import ProductShowcase from '../components/ProductShowcase';
 import HowItWorks from '../components/HowItWorks';
-import Features from '../components/Features';
 import ProductCollection from '../components/ProductCollection';
-import CardCustomizer from '../components/CardCustomizer';
 import OrderModal from '../components/OrderModal';
 import DigitalProfile from '../components/DigitalProfile';
-import AnalyticsPreview from '../components/AnalyticsPreview';
-import WhyNFC from '../components/WhyNFC';
 import Testimonials from '../components/Testimonials';
+import VideoShowcase from '../components/VideoShowcase';
 import FAQ from '../components/FAQ';
-import ContactSection from '../components/ContactSection';
 import CTA from '../components/CTA';
 import Footer from '../components/Footer';
 import { productService } from '../services/api';
@@ -20,7 +16,6 @@ import { productService } from '../services/api';
 export default function Home() {
   const [products, setProducts] = useState([]);
   const [orderModalOpen, setOrderModalOpen] = useState(false);
-  const [customizerProduct, setCustomizerProduct] = useState(null);
   const [orderInitialData, setOrderInitialData] = useState(null);
 
   useEffect(() => {
@@ -44,30 +39,22 @@ export default function Home() {
 
   // Triggered from Product cards 'Order Now'
   const handleSelectProduct = (product) => {
+    const regularCost = Number(product.discount_price && product.discount_price > 0 
+      ? product.discount_price 
+      : (product.regular_price || product.price || 500));
+    const vipCost = product.vip_price ? Number(product.vip_price) : (regularCost + 300);
+
     setOrderInitialData({
       productId: product.id,
+      name: product.name || '',
       edition: product.edition,
       editionCode: product.color_hex?.includes('purple') ? 'purple' : product.color_hex?.includes('gold') ? 'gold' : 'black',
-      price: product.discount_price && product.discount_price > 0 ? product.discount_price : product.price,
-      name: '',
+      price: vipCost,
+      regularPrice: regularCost,
+      vipPrice: vipCost,
+      image_url: product.image_url || product.image || null,
       designation: '',
       company: '',
-    });
-    setOrderModalOpen(true);
-  };
-
-  // Triggered from Product cards 'Customize Design First'
-  const handleCustomizeProduct = (product) => {
-    setCustomizerProduct(product);
-    const el = document.getElementById('customizer');
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
-  };
-
-  // Triggered from CardCustomizer 'Continue to Order'
-  const handleContinueToOrderFromCustomizer = (customData) => {
-    setOrderInitialData({
-      ...customData,
-      productId: customizerProduct?.id || null,
     });
     setOrderModalOpen(true);
   };
@@ -82,46 +69,29 @@ export default function Home() {
         <Hero onGetCardClick={handleGetCardClick} products={products} />
 
         {/* 2. Product Showcase */}
-        <ProductShowcase onExploreClick={handleGetCardClick} />
+        <ProductShowcase onExploreClick={handleGetCardClick} products={products} />
 
         {/* 3. How It Works */}
         <HowItWorks />
 
-        {/* 4. Features */}
-        <Features />
-
-        {/* 5. NFC Card Collection (from Django API) */}
+        {/* 4. NFC Card Collection (from Django API) */}
         <ProductCollection
           onSelectProduct={handleSelectProduct}
-          onCustomizeProduct={handleCustomizeProduct}
         />
 
-        {/* 6. Interactive Card Customizer */}
-        <CardCustomizer
-          initialProduct={customizerProduct}
-          products={products}
-          onContinueToOrder={handleContinueToOrderFromCustomizer}
-        />
-
-        {/* 7. Post-tap Digital Profile Mockup */}
+        {/* 5. Post-tap Digital Profile Mockup */}
         <DigitalProfile />
 
-        {/* 8. Card Analytics Dashboard Preview */}
-        <AnalyticsPreview />
-
-        {/* 9. Why NFC (Comparison Table) */}
-        <WhyNFC />
-
-        {/* 10. Client Testimonials (from Django API) */}
+        {/* 6. Client Testimonials (from Django API) */}
         <Testimonials />
 
-        {/* 11. FAQ Accordion (from Django API) */}
+        {/* 6.5 Video Showcase (YouTube Demonstration) */}
+        <VideoShowcase />
+
+        {/* 7. FAQ Accordion (from Django API) */}
         <FAQ />
 
-        {/* 12. Contact Form (submits to Django API) */}
-        <ContactSection />
-
-        {/* 13. Final CTA */}
+        {/* 8. Final CTA */}
         <CTA onGetCardClick={handleGetCardClick} />
       </main>
 

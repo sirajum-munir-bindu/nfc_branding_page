@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { Radio, Heart, ArrowUp } from 'lucide-react';
 
 export default function Footer() {
@@ -42,8 +42,7 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2">
               <li><a href="#cards" className="hover:text-cyan-400 transition-colors">NFC Cards</a></li>
-              <li><a href="#customizer" className="hover:text-cyan-400 transition-colors">Digital Profile</a></li>
-              <li><a href="#features" className="hover:text-cyan-400 transition-colors">Features</a></li>
+              <li><a href="#profile" className="hover:text-cyan-400 transition-colors">Digital Profile</a></li>
               <li><a href="#cards" className="hover:text-cyan-400 transition-colors">Pricing & Editions</a></li>
             </ul>
           </div>
@@ -55,7 +54,7 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2">
               <li><a href="#hero" className="hover:text-cyan-400 transition-colors">About TapCard</a></li>
-              <li><a href="#contact" className="hover:text-cyan-400 transition-colors">Contact Support</a></li>
+              <li><a href="mailto:contact@tapcard.com" className="hover:text-cyan-400 transition-colors">Contact Support</a></li>
               <li><a href="#faq" className="hover:text-cyan-400 transition-colors">FAQ Knowledge Base</a></li>
               <li><a href="/admin/login" className="hover:text-cyan-400 transition-colors">Merchant Portal</a></li>
             </ul>

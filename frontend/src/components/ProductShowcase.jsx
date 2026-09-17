@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { 
   Zap, Smartphone, RefreshCw, CheckCircle2, QrCode, 
@@ -6,7 +6,16 @@ import {
 } from 'lucide-react';
 import NFCCard3D from './NFCCard3D';
 
-export default function ProductShowcase({ onExploreClick }) {
+export default function ProductShowcase({ onExploreClick, products = [] }) {
+  const activeProduct = products[0] || null;
+  const lower = `${activeProduct?.name || ''} ${activeProduct?.edition || ''} ${activeProduct?.finish || ''}`.toLowerCase();
+  let theme = 'purple';
+  if (lower.includes('gold') || lower.includes('yellow')) theme = 'gold';
+  else if (lower.includes('black')) theme = 'black';
+  else if (lower.includes('titanium') || lower.includes('cyan')) theme = 'titanium';
+  else if (lower.includes('emerald') || lower.includes('green')) theme = 'emerald';
+  else if (lower.includes('rose') || lower.includes('red')) theme = 'rose';
+
   const highlights = [
     { icon: Zap, label: 'Instant profile sharing', desc: 'Transfer contact in 0.2 seconds' },
     { icon: Smartphone, label: 'No app required', desc: 'Opens natively in Safari & Chrome' },
@@ -45,17 +54,19 @@ export default function ProductShowcase({ onExploreClick }) {
             
             <div className="scale-95 sm:scale-105 my-4">
               <NFCCard3D
-                variant="purple"
-                name="Tanvir Rahman"
-                title="Managing Director"
-                company="Apex Technologies"
+                variant={theme}
+                imageUrl={activeProduct?.image_url || activeProduct?.image}
+                backImageUrl={activeProduct?.back_image_url || activeProduct?.back_image}
+                name={activeProduct?.name || 'S. M. Bindu'}
+                title={activeProduct?.edition || 'Founder & Product Architect'}
+                company={activeProduct?.finish ? `${activeProduct.finish} Finish` : 'TapCard Technologies'}
                 interactive={true}
               />
             </div>
 
             <div className="mt-6 flex items-center justify-between w-full max-w-sm pt-4 border-t border-white/10 text-xs text-slate-400">
-              <span className="font-mono">Finish: Midnight Nebula</span>
-              <span className="text-purple-300 font-semibold">Chroma Laser Cured</span>
+              <span className="font-mono">Finish: {activeProduct?.finish || 'Matte Obsidian'}</span>
+              <span className="text-purple-300 font-semibold">{activeProduct?.edition || 'Precision Cured'}</span>
             </div>
           </div>
 

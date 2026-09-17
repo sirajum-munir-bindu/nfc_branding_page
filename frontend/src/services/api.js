@@ -1,4 +1,4 @@
-﻿import axios from 'axios';
+import axios from 'axios';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api';
 
@@ -122,6 +122,12 @@ export const contactService = {
 export const adminService = {
   getDashboardStats: () => api.get('/admin/dashboard/'),
   getCustomers: (params) => api.get('/admin/customers/', { params }),
+  deleteCustomer: (id) => api.delete(`/admin/customers/${id}/`),
+};
+
+export const settingsService = {
+  getSettings: () => api.get('/settings/'),
+  updateSetting: (key, value) => api.post('/settings/', { key, value }),
 };
 
 export default api;

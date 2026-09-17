@@ -1,7 +1,36 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Star, Quote, Sparkles, AlertCircle, RefreshCw } from 'lucide-react';
 import { testimonialService } from '../services/api';
+import { getDirectImageUrl, getInitials } from '../utils/imageUtils';
+
+function TestimonialAvatar({ src, name }) {
+  const [error, setError] = useState(false);
+  const directSrc = getDirectImageUrl(src);
+
+  useEffect(() => {
+    setError(false);
+  }, [src]);
+
+  if (!directSrc || error) {
+    return (
+      <div className="w-full h-full rounded-full bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center text-white font-extrabold text-xs tracking-wider">
+        {getInitials(name)}
+      </div>
+    );
+  }
+
+  return (
+    <img
+      src={directSrc}
+      alt={name || 'Client Avatar'}
+      referrerPolicy="no-referrer"
+      crossOrigin="anonymous"
+      onError={() => setError(true)}
+      className="w-full h-full object-cover rounded-full"
+    />
+  );
+}
 
 export default function Testimonials() {
   const [testimonials, setTestimonials] = useState([]);
@@ -96,10 +125,22 @@ export default function Testimonials() {
                 <div>
                   {/* Rating Stars & Quote Icon */}
                   <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center gap-1 text-amber-400">
-                      {[...Array(t.rating || 5)].map((_, r) => (
-                        <Star key={r} className="w-4 h-4 fill-amber-400 text-amber-400" />
-                      ))}
+                    <div className="flex items-center gap-1.5">
+                      <div className="flex items-center gap-0.5 text-amber-400">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                          <Star
+                            key={star}
+                            className={`w-4 h-4 ${
+                              star <= (t.rating || 5)
+                                ? 'fill-amber-400 text-amber-400'
+                                : 'text-slate-600 fill-transparent'
+                            }`}
+                          />
+                        ))}
+                      </div>
+                      <span className="text-[11px] font-mono font-bold text-amber-400 ml-1">
+                        {Number(t.rating || 5).toFixed(1)}
+                      </span>
                     </div>
                     <Quote className="w-6 h-6 text-white/10 group-hover:text-cyan-500/20 transition-colors" />
                   </div>
@@ -112,11 +153,10 @@ export default function Testimonials() {
 
                 {/* Author Info */}
                 <div className="flex items-center gap-3 pt-6 mt-4 border-t border-white/[0.06]">
-                  <div className="w-11 h-11 rounded-full p-[1.5px] bg-gradient-to-tr from-cyan-400 to-blue-600 shrink-0">
-                    <img
-                      src={t.avatar_url || t.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80'}
-                      alt={t.name}
-                      className="w-full h-full object-cover rounded-full"
+                  <div className="w-11 h-11 rounded-full p-[1.5px] bg-gradient-to-tr from-cyan-400 to-blue-600 shrink-0 overflow-hidden">
+                    <TestimonialAvatar
+                      src={t.avatar_url || t.avatar}
+                      name={t.name}
                     />
                   </div>
                   <div className="min-w-0">

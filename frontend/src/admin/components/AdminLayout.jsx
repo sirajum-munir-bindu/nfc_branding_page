@@ -1,9 +1,8 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { 
   LayoutDashboard, Package, ShoppingCart, Users, 
-  MessageSquare, HelpCircle, Palette, Settings, 
-  LogOut, ExternalLink, Menu, X, Radio, Bell, 
-  Search, ShieldCheck 
+  HelpCircle, LogOut, ExternalLink, Menu, X, Radio, Bell, 
+  Search, ShieldCheck, Video, Settings 
 } from 'lucide-react';
 import { NavLink, Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { authService } from '../../services/api';
@@ -26,9 +25,7 @@ export default function AdminLayout() {
     { name: 'Customers', path: '/admin/customers', icon: Users },
     { name: 'Testimonials', path: '/admin/testimonials', icon: ShieldCheck },
     { name: 'FAQs', path: '/admin/faqs', icon: HelpCircle },
-    { name: 'Messages', path: '/admin/messages', icon: MessageSquare },
-    { name: 'Card Designs', path: '/admin/card-designs', icon: Palette },
-    { name: 'Settings', path: '/admin/settings', icon: Settings },
+    { name: 'Video & Settings', path: '/admin/settings', icon: Video },
   ];
 
   const getPageTitle = () => {
