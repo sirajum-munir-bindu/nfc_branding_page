@@ -1,6 +1,8 @@
 import axios from 'axios';
+import { ENV } from '../config/env';
+import { ROUTES } from '../routes/paths';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api';
+const API_BASE_URL = ENV.API_BASE_URL;
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -40,8 +42,8 @@ api.interceptors.response.use(
           localStorage.removeItem('tapcard_access_token');
           localStorage.removeItem('tapcard_refresh_token');
           localStorage.removeItem('tapcard_user');
-          if (window.location.pathname.startsWith('/admin') && window.location.pathname !== '/admin/login') {
-            window.location.href = '/admin/login';
+          if (window.location.pathname.startsWith(ROUTES.ADMIN.ROOT) && window.location.pathname !== ROUTES.ADMIN.LOGIN) {
+            window.location.href = ROUTES.ADMIN.LOGIN;
           }
         }
       }

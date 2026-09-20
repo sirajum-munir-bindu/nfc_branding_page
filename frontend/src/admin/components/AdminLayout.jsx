@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import { NavLink, Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { authService } from '../../services/api';
+import { ROUTES } from '../../routes/paths';
 
 export default function AdminLayout() {
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
@@ -15,17 +16,17 @@ export default function AdminLayout() {
 
   const handleLogout = () => {
     authService.logout();
-    navigate('/admin/login');
+    navigate(ROUTES.ADMIN.LOGIN);
   };
 
   const navItems = [
-    { name: 'Dashboard', path: '/admin/dashboard', icon: LayoutDashboard },
-    { name: 'Products', path: '/admin/products', icon: Package },
-    { name: 'Orders', path: '/admin/orders', icon: ShoppingCart },
-    { name: 'Customers', path: '/admin/customers', icon: Users },
-    { name: 'Testimonials', path: '/admin/testimonials', icon: ShieldCheck },
-    { name: 'FAQs', path: '/admin/faqs', icon: HelpCircle },
-    { name: 'Video & Settings', path: '/admin/settings', icon: Video },
+    { name: 'Dashboard', path: ROUTES.ADMIN.DASHBOARD, icon: LayoutDashboard },
+    { name: 'Products', path: ROUTES.ADMIN.PRODUCTS, icon: Package },
+    { name: 'Orders', path: ROUTES.ADMIN.ORDERS, icon: ShoppingCart },
+    { name: 'Customers', path: ROUTES.ADMIN.CUSTOMERS, icon: Users },
+    { name: 'Testimonials', path: ROUTES.ADMIN.TESTIMONIALS, icon: ShieldCheck },
+    { name: 'FAQs', path: ROUTES.ADMIN.FAQS, icon: HelpCircle },
+    { name: 'Video & Settings', path: ROUTES.ADMIN.SETTINGS, icon: Video },
   ];
 
   const getPageTitle = () => {
@@ -39,7 +40,7 @@ export default function AdminLayout() {
       <aside className="hidden md:flex flex-col w-64 bg-[#0a0f1d] border-r border-white/[0.08] shrink-0 sticky top-0 h-screen z-30 justify-between">
         <div>
           <div className="p-6 border-b border-white/[0.08] flex items-center justify-between">
-            <NavLink to="/admin/dashboard" className="flex items-center gap-2.5">
+            <NavLink to={ROUTES.ADMIN.DASHBOARD} className="flex items-center gap-2.5">
               <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-blue-600 via-cyan-500 to-indigo-600 p-[1.5px]">
                 <div className="w-full h-full bg-[#070b13] rounded-[10px] flex items-center justify-center">
                   <Radio className="w-4 h-4 text-cyan-400" />
@@ -120,7 +121,7 @@ export default function AdminLayout() {
 
           <div className="flex items-center gap-3">
             <a
-              href="/"
+              href={ROUTES.HOME}
               target="_blank"
               rel="noreferrer"
               className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 text-xs font-medium text-slate-300 hover:text-white transition-colors"

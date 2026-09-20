@@ -1,5 +1,6 @@
-﻿import React from 'react';
+import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { ROUTES, getSubPath } from './routes/paths';
 import Home from './pages/Home';
 import AdminLogin from './admin/pages/AdminLogin';
 import AdminRoute from './admin/components/AdminRoute';
@@ -19,29 +20,29 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         {/* Public Landing Page */}
-        <Route path="/" element={<Home />} />
+        <Route path={ROUTES.HOME} element={<Home />} />
 
         {/* Admin Authentication */}
-        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path={ROUTES.ADMIN.LOGIN} element={<AdminLogin />} />
 
         {/* Protected Admin SaaS Portal */}
-        <Route path="/admin" element={<AdminRoute />}>
+        <Route path={ROUTES.ADMIN.ROOT} element={<AdminRoute />}>
           <Route element={<AdminLayout />}>
-            <Route index element={<Navigate to="/admin/dashboard" replace />} />
-            <Route path="dashboard" element={<AdminDashboard />} />
-            <Route path="products" element={<AdminProducts />} />
-            <Route path="orders" element={<AdminOrders />} />
-            <Route path="customers" element={<AdminCustomers />} />
-            <Route path="testimonials" element={<AdminTestimonials />} />
-            <Route path="faqs" element={<AdminFAQs />} />
-            <Route path="messages" element={<AdminMessages />} />
-            <Route path="card-designs" element={<AdminCardDesigns />} />
-            <Route path="settings" element={<AdminSettings />} />
+            <Route index element={<Navigate to={ROUTES.ADMIN.DASHBOARD} replace />} />
+            <Route path={getSubPath(ROUTES.ADMIN.DASHBOARD, ROUTES.ADMIN.ROOT)} element={<AdminDashboard />} />
+            <Route path={getSubPath(ROUTES.ADMIN.PRODUCTS, ROUTES.ADMIN.ROOT)} element={<AdminProducts />} />
+            <Route path={getSubPath(ROUTES.ADMIN.ORDERS, ROUTES.ADMIN.ROOT)} element={<AdminOrders />} />
+            <Route path={getSubPath(ROUTES.ADMIN.CUSTOMERS, ROUTES.ADMIN.ROOT)} element={<AdminCustomers />} />
+            <Route path={getSubPath(ROUTES.ADMIN.TESTIMONIALS, ROUTES.ADMIN.ROOT)} element={<AdminTestimonials />} />
+            <Route path={getSubPath(ROUTES.ADMIN.FAQS, ROUTES.ADMIN.ROOT)} element={<AdminFAQs />} />
+            <Route path={getSubPath(ROUTES.ADMIN.MESSAGES, ROUTES.ADMIN.ROOT)} element={<AdminMessages />} />
+            <Route path={getSubPath(ROUTES.ADMIN.CARD_DESIGNS, ROUTES.ADMIN.ROOT)} element={<AdminCardDesigns />} />
+            <Route path={getSubPath(ROUTES.ADMIN.SETTINGS, ROUTES.ADMIN.ROOT)} element={<AdminSettings />} />
           </Route>
         </Route>
 
         {/* Catch-all fallback */}
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="*" element={<Navigate to={ROUTES.HOME} replace />} />
       </Routes>
     </BrowserRouter>
   );

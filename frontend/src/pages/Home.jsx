@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import Hero from '../components/Hero';
 import ProductShowcase from '../components/ProductShowcase';
-import HowItWorks from '../components/HowItWorks';
 import ProductCollection from '../components/ProductCollection';
 import OrderModal from '../components/OrderModal';
 import DigitalProfile from '../components/DigitalProfile';
@@ -71,10 +70,7 @@ export default function Home() {
         {/* 2. Product Showcase */}
         <ProductShowcase onExploreClick={handleGetCardClick} products={products} />
 
-        {/* 3. How It Works */}
-        <HowItWorks />
-
-        {/* 4. NFC Card Collection (from Django API) */}
+        {/* 3. NFC Card Collection (from Django API) */}
         <ProductCollection
           onSelectProduct={handleSelectProduct}
         />

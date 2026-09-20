@@ -1,7 +1,8 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Radio, Lock, Mail, ArrowRight, AlertCircle, Loader2, Sparkles } from 'lucide-react';
 import { authService } from '../../services/api';
+import { ROUTES } from '../../routes/paths';
 
 export default function AdminLogin() {
   const [email, setEmail] = useState('admin@tapcard.com');
@@ -17,7 +18,7 @@ export default function AdminLogin() {
 
     try {
       const data = await authService.login(email, password);
-      navigate('/admin/dashboard');
+      navigate(ROUTES.ADMIN.DASHBOARD);
     } catch (err) {
       console.error('Login failed:', err);
       const msg = err.response?.data?.non_field_errors?.[0] || err.response?.data?.detail || 'Invalid email or password.';
@@ -129,7 +130,7 @@ export default function AdminLogin() {
 
         <div className="text-center">
           <a
-            href="/"
+            href={ROUTES.HOME}
             className="text-xs text-slate-400 hover:text-slate-200 transition-colors font-mono"
           >
             ← Return to Public Website

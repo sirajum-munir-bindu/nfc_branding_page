@@ -10,6 +10,7 @@ import {
 } from 'recharts';
 import { Link } from 'react-router-dom';
 import { adminService } from '../../services/api';
+import { ROUTES } from '../../routes/paths';
 
 export default function AdminDashboard() {
   const [data, setData] = useState(null);
@@ -194,7 +195,7 @@ export default function AdminDashboard() {
           </div>
 
           <Link
-            to="/admin/orders"
+            to={ROUTES.ADMIN.ORDERS}
             className="w-full py-2.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-xs font-semibold text-cyan-400 flex items-center justify-center gap-1.5 transition-colors"
           >
             <span>Manage All Orders</span>
@@ -208,7 +209,7 @@ export default function AdminDashboard() {
         <div className="lg:col-span-5 p-6 rounded-3xl bg-white/[0.025] border border-white/[0.08] space-y-4">
           <div className="flex items-center justify-between">
             <h3 className="text-base font-bold text-white">Popular Card Editions</h3>
-            <Link to="/admin/products" className="text-xs text-cyan-400 hover:underline">
+            <Link to={ROUTES.ADMIN.PRODUCTS} className="text-xs text-cyan-400 hover:underline">
               View Catalog
             </Link>
           </div>
@@ -240,7 +241,7 @@ export default function AdminDashboard() {
         <div className="lg:col-span-7 p-6 rounded-3xl bg-white/[0.025] border border-white/[0.08] space-y-4">
           <div className="flex items-center justify-between">
             <h3 className="text-base font-bold text-white">Recent Orders</h3>
-            <Link to="/admin/orders" className="text-xs text-cyan-400 hover:underline">
+            <Link to={ROUTES.ADMIN.ORDERS} className="text-xs text-cyan-400 hover:underline">
               All Orders
             </Link>
           </div>
