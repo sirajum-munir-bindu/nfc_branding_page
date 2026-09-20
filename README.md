@@ -1,1 +1,1 @@
-# nfc_branding_page
+# TapCard — Smart NFC Digital Business Card Platform
