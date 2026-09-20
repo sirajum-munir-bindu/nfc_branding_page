@@ -33,10 +33,6 @@ export default function ProductShowcase({ onExploreClick, products = [] }) {
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-mono uppercase tracking-wider">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Redefining Networking</span>
-          </div>
           <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
             More Than a Business Card.
           </h2>

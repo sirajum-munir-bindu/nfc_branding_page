@@ -227,11 +227,6 @@ export default function Hero({ onGetCardClick, products: propProducts }) {
           transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
           className="w-full max-w-4xl flex flex-col items-center text-center space-y-6 sm:space-y-8 pt-4"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-mono uppercase tracking-wider">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Next-Generation Digital Identity</span>
-          </div>
-
           <h1 className="text-4xl sm:text-6xl xl:text-7xl font-extrabold tracking-tight text-white leading-[1.08]">
             One Tap.{' '}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-400 to-indigo-400">
@@ -254,10 +249,10 @@ export default function Hero({ onGetCardClick, products: propProducts }) {
             </button>
 
             <a
-              href="#how-it-works"
+              href="#cards"
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-4 rounded-xl font-semibold text-base text-slate-200 hover:text-white bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 backdrop-blur-md transition-all duration-200"
             >
-              <span>See How It Works</span>
+              <span>Explore Collection</span>
             </a>
           </div>
 

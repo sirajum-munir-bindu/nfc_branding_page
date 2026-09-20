@@ -20,7 +20,7 @@ const InstagramIcon = ({ className }) => (
 
 export default function DigitalProfile() {
   const socialLinks = [
-    { name: 'WhatsApp Direct', icon: MessageSquare, value: '+880 1700 112233', color: 'text-emerald-400 bg-emerald-500/10' },
+    { name: 'WhatsApp Direct', icon: MessageSquare, value: '+880 1847-334827', href: 'https://wa.me/8801847334827', color: 'text-emerald-400 bg-emerald-500/10' },
     { name: 'LinkedIn Profile', icon: LinkedInIcon, value: 'linkedin.com/in/smbindu', color: 'text-blue-400 bg-blue-500/10' },
     { name: 'Official Website', icon: Globe, value: 'https://tapcard.tech', color: 'text-cyan-400 bg-cyan-500/10' },
     { name: 'Portfolio Showcase', icon: ExternalLink, value: 'readymag.website/bindu', color: 'text-purple-400 bg-purple-500/10' },
@@ -31,10 +31,6 @@ export default function DigitalProfile() {
     <section id="profile" className="py-24 relative overflow-hidden bg-[#05070c]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-mono uppercase tracking-wider">
-            <Radio className="w-3.5 h-3.5 animate-pulse" />
-            <span>Post-Tap Recipient View</span>
-          </div>
           <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
             Your Card Opens a Digital Identity.
           </h2>

@@ -16,7 +16,6 @@ export default function Navbar({ onOpenOrderModal }) {
 
   const navLinks = [
     { name: 'Home', href: '#hero' },
-    { name: 'How It Works', href: '#how-it-works' },
     { name: 'Cards', href: '#cards' },
     { name: 'Reviews', href: '#testimonials' },
     { name: 'FAQ', href: '#faq' },

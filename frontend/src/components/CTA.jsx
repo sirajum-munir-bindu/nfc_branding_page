@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { ArrowRight, Sparkles, Handshake } from 'lucide-react';
 
 export default function CTA({ onGetCardClick }) {
@@ -9,12 +9,6 @@ export default function CTA({ onGetCardClick }) {
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
         <div className="p-8 sm:p-14 md:p-16 rounded-[40px] bg-gradient-to-b from-white/[0.05] to-white/[0.01] border border-white/[0.1] backdrop-blur-2xl shadow-2xl space-y-6">
-          
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-mono uppercase tracking-wider">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Join 10,000+ Modern Professionals</span>
-          </div>
-
           <h2 className="text-3xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-tight leading-[1.1]">
             Stop Handing Out Paper.{' '}
             <span className="block mt-1 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-400 to-indigo-400">

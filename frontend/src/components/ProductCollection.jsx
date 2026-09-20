@@ -217,10 +217,6 @@ export default function ProductCollection({ onSelectProduct }) {
     <section id="cards" className="py-24 relative overflow-hidden bg-gradient-to-b from-[#05070c] via-[#080d17] to-[#05070c]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-mono uppercase tracking-wider">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Hardware Catalog</span>
-          </div>
           <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
             Choose Your Card.
           </h2>

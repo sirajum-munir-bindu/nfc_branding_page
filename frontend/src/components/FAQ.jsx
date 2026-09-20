@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, HelpCircle, Sparkles } from 'lucide-react';
 import { faqService } from '../services/api';
@@ -32,10 +32,6 @@ export default function FAQ() {
     <section id="faq" className="py-24 relative overflow-hidden bg-[#05070c]">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16 space-y-4">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-mono uppercase tracking-wider">
-            <HelpCircle className="w-3.5 h-3.5" />
-            <span>Got Questions?</span>
-          </div>
           <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
             Frequently Asked Questions
           </h2>
