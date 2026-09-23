@@ -45,7 +45,8 @@ export default function Home() {
 
     setOrderInitialData({
       productId: product.id,
-      name: product.name || '',
+      productName: product.name || '',
+      name: '',
       edition: product.edition,
       editionCode: product.color_hex?.includes('purple') ? 'purple' : product.color_hex?.includes('gold') ? 'gold' : 'black',
       price: vipCost,

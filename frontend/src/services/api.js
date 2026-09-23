@@ -75,7 +75,9 @@ export const authService = {
     return !!localStorage.getItem('tapcard_access_token');
   },
   getMe: () => api.get('/auth/me/'),
+  changePassword: (data) => api.post('/auth/change-password/', data),
 };
+
 
 export const productService = {
   getProducts: () => api.get('/products/'),

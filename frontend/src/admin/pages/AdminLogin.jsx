@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Radio, Lock, Mail, ArrowRight, AlertCircle, Loader2, Sparkles } from 'lucide-react';
+import { Radio, Lock, Mail, ArrowRight, AlertCircle, Loader2 } from 'lucide-react';
 import { authService } from '../../services/api';
 import { ROUTES } from '../../routes/paths';
 
 export default function AdminLogin() {
-  const [email, setEmail] = useState('admin@tapcard.com');
-  const [password, setPassword] = useState('admin123');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -26,11 +26,6 @@ export default function AdminLogin() {
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleQuickFill = () => {
-    setEmail('admin@tapcard.com');
-    setPassword('admin123');
   };
 
   return (
@@ -74,7 +69,7 @@ export default function AdminLogin() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="admin@tapcard.com"
+                placeholder="Enter your email"
                 className="w-full pl-10 pr-4 py-3 rounded-xl bg-white/[0.04] border border-white/10 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-cyan-400 transition-colors"
               />
             </div>
@@ -91,7 +86,7 @@ export default function AdminLogin() {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
+                placeholder="Enter your password"
                 className="w-full pl-10 pr-4 py-3 rounded-xl bg-white/[0.04] border border-white/10 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-cyan-400 transition-colors"
               />
             </div>
@@ -116,19 +111,7 @@ export default function AdminLogin() {
           </button>
         </form>
 
-        {/* Quick Fill Credentials Helper */}
-        <div className="pt-4 border-t border-white/[0.08] text-center">
-          <button
-            type="button"
-            onClick={handleQuickFill}
-            className="inline-flex items-center gap-1.5 text-xs text-cyan-400 hover:text-cyan-300 transition-colors cursor-pointer"
-          >
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Use Seed Credentials (admin@tapcard.com / admin123)</span>
-          </button>
-        </div>
-
-        <div className="text-center">
+        <div className="text-center pt-2">
           <a
             href={ROUTES.HOME}
             className="text-xs text-slate-400 hover:text-slate-200 transition-colors font-mono"
