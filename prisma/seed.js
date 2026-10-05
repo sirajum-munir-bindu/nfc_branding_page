@@ -12,7 +12,8 @@ async function main() {
     where: { email: adminEmail },
   });
 
-  const hashedPassword = await bcrypt.hash('admin123', 10);
+  // Hash compatible with both Django PBKDF2 hasher and Next.js crypto verifier
+  const hashedPassword = 'pbkdf2_sha256$1000000$He9mEjvXj1XKVNWHRm0HWo$yD8rbqbupPzTL1UBbO37jpqMFTMNa9yYITsfX+p0oQA=';
 
   if (!existingAdmin) {
     const admin = await prisma.user.create({
