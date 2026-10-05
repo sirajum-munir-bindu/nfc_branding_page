@@ -1,0 +1,520 @@
+'use client';
+import React, { useState, useEffect } from 'react';
+import { 
+  ShoppingCart, Search, Filter, Eye, CheckCircle, 
+  Clock, Truck, Check, AlertCircle, X, ChevronDown, 
+  MapPin, Phone, Mail, User, Radio, Trash2, Loader2,
+  Crown, Sparkles
+} from 'lucide-react';
+import { orderService } from '../../services/api';
+
+export default function AdminOrders() {
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [selectedStatus, setSelectedStatus] = useState('All');
+  const [selectedTier, setSelectedTier] = useState('All'); // 'All' | 'VIP' | 'Regular'
+  const [searchQuery, setSearchQuery] = useState('');
+  const [detailOrder, setDetailOrder] = useState(null);
+  const [deleteConfirmOrder, setDeleteConfirmOrder] = useState(null);
+  const [deletingId, setDeletingId] = useState(null);
+
+  const statuses = ['All', 'Pending', 'Confirmed', 'Processing', 'Shipped', 'Delivered', 'Cancelled'];
+
+  const isVipOrder = (order) => {
+    if (!order) return false;
+    const item = order.items?.[0];
+    const pkgTier = item?.customization_data?.package_tier;
+    if (pkgTier === 'VIP' || pkgTier === 'vip') return true;
+    if (pkgTier === 'REGULAR' || pkgTier === 'regular') return false;
+    if (order.notes && order.notes.toLowerCase().includes('package: vip')) return true;
+    if (item?.product_name && item.product_name.toLowerCase().includes('vip')) return true;
+    if (item?.customization_data?.edition && item.customization_data.edition.toLowerCase().includes('vip')) return true;
+    if (Number(order.total_amount) >= 700) return true;
+    return false;
+  };
+
+  const fetchOrders = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const params = {};
+      if (selectedStatus !== 'All') {
+        params.status = selectedStatus;
+      }
+      if (searchQuery) {
+        params.search = searchQuery;
+      }
+      const res = await orderService.getOrders(params);
+      const items = Array.isArray(res.data) ? res.data : (res.data?.results || []);
+      setOrders(items);
+    } catch (err) {
+      console.error('Error fetching orders:', err);
+      setError('Could not fetch orders list.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchOrders();
+  }, [selectedStatus]);
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    fetchOrders();
+  };
+
+  const handleUpdateStatus = async (orderId, newStatus) => {
+    try {
+      await orderService.updateOrder(orderId, { status: newStatus });
+      fetchOrders();
+      if (detailOrder && detailOrder.id === orderId) {
+        setDetailOrder({ ...detailOrder, status: newStatus });
+      }
+    } catch (err) {
+      console.error('Error updating order status:', err);
+      alert('Failed to update status.');
+    }
+  };
+
+  const handleUpdatePaymentStatus = async (orderId, newPaymentStatus) => {
+    try {
+      await orderService.updateOrder(orderId, { payment_status: newPaymentStatus });
+      fetchOrders();
+      if (detailOrder && detailOrder.id === orderId) {
+        setDetailOrder({ ...detailOrder, payment_status: newPaymentStatus });
+      }
+    } catch (err) {
+      console.error('Error updating payment status:', err);
+      alert('Failed to update payment status.');
+    }
+  };
+
+  const handleDeleteOrder = async (orderId) => {
+    try {
+      setDeletingId(orderId);
+      await orderService.deleteOrder(orderId);
+      if (detailOrder && detailOrder.id === orderId) {
+        setDetailOrder(null);
+      }
+      setDeleteConfirmOrder(null);
+      fetchOrders();
+    } catch (err) {
+      console.error('Error deleting order:', err);
+      alert('Failed to delete order. Please ensure you are logged in as admin.');
+    } finally {
+      setDeletingId(null);
+    }
+  };
+
+  const getStatusBadge = (status) => {
+    const badges = {
+      Pending: 'bg-amber-500/15 text-amber-300 border-amber-500/30',
+      Confirmed: 'bg-blue-500/15 text-blue-300 border-blue-500/30',
+      Processing: 'bg-purple-500/15 text-purple-300 border-purple-500/30',
+      Shipped: 'bg-cyan-500/15 text-cyan-300 border-cyan-500/30',
+      Delivered: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30',
+      Cancelled: 'bg-rose-500/15 text-rose-300 border-rose-500/30',
+    };
+    return badges[status] || 'bg-white/10 text-white';
+  };
+
+  const displayedOrders = orders.filter((ord) => {
+    if (selectedTier === 'VIP') return isVipOrder(ord);
+    if (selectedTier === 'Regular') return !isVipOrder(ord);
+    return true;
+  });
+
+  return (
+    <div className="space-y-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h2 className="text-xl font-bold text-white">Orders & Fulfillment</h2>
+          <p className="text-xs text-slate-400">Review laser customization requests and update delivery stages</p>
+        </div>
+
+        <form onSubmit={handleSearch} className="flex items-center gap-2">
+          <div className="relative">
+            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search by order #, name..."
+              className="pl-9 pr-3.5 py-2 rounded-xl bg-white/[0.04] border border-white/10 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-cyan-400 w-48 sm:w-64"
+            />
+          </div>
+          <button
+            type="submit"
+            className="px-3 py-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.1] text-xs font-semibold text-white transition-colors cursor-pointer"
+          >
+            Search
+          </button>
+        </form>
+      </div>
+
+      {/* Filter Tabs: Status & Tier Filter */}
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/[0.06] pb-3">
+        {/* Status Filters */}
+        <div className="flex items-center gap-1.5 overflow-x-auto pb-1">
+          {statuses.map((st) => (
+            <button
+              key={st}
+              onClick={() => setSelectedStatus(st)}
+              className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
+                selectedStatus === st
+                  ? 'bg-cyan-500/15 text-cyan-300 border border-cyan-500/30'
+                  : 'text-slate-400 hover:text-white hover:bg-white/[0.04]'
+              }`}
+            >
+              {st}
+            </button>
+          ))}
+        </div>
+
+        {/* Tier Filters: All | VIP Cards | Regular Cards */}
+        <div className="flex items-center p-1 rounded-xl bg-white/[0.03] border border-white/[0.08] gap-1">
+          <button
+            type="button"
+            onClick={() => setSelectedTier('All')}
+            className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+              selectedTier === 'All'
+                ? 'bg-white/10 text-white shadow-sm'
+                : 'text-slate-400 hover:text-white'
+            }`}
+          >
+            All Tiers
+          </button>
+          <button
+            type="button"
+            onClick={() => setSelectedTier('VIP')}
+            className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
+              selectedTier === 'VIP'
+                ? 'bg-gradient-to-r from-amber-400 to-yellow-500 text-black shadow-md shadow-amber-500/20'
+                : 'text-amber-300/80 hover:text-amber-300 hover:bg-amber-400/10'
+            }`}
+          >
+            <Crown className="w-3.5 h-3.5" />
+            <span>VIP Cards</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setSelectedTier('Regular')}
+            className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer flex items-center gap-1.5 ${
+              selectedTier === 'Regular'
+                ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-sm'
+                : 'text-cyan-400/80 hover:text-cyan-300 hover:bg-cyan-500/10'
+            }`}
+          >
+            <Radio className="w-3.5 h-3.5" />
+            <span>Regular</span>
+          </button>
+        </div>
+      </div>
+
+      <div className="rounded-3xl bg-white/[0.025] border border-white/[0.08] overflow-hidden shadow-2xl">
+        <div className="overflow-x-auto">
+          <table className="w-full text-left text-xs">
+            <thead className="border-b border-white/[0.08] bg-white/[0.02] text-slate-400 font-mono uppercase text-[10px]">
+              <tr>
+                <th className="py-3.5 px-6">Order ID</th>
+                <th className="py-3.5 px-6">Tier</th>
+                <th className="py-3.5 px-6">Customer</th>
+                <th className="py-3.5 px-6">Total (৳)</th>
+                <th className="py-3.5 px-6">Payment</th>
+                <th className="py-3.5 px-6">Fulfillment</th>
+                <th className="py-3.5 px-6">Date</th>
+                <th className="py-3.5 px-6 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-white/[0.04]">
+              {displayedOrders.map((ord) => {
+                const isVip = isVipOrder(ord);
+                return (
+                  <tr key={ord.id} className="hover:bg-white/[0.02] transition-colors">
+                    <td className="py-4 px-6 font-mono font-bold text-cyan-400">
+                      {ord.order_number}
+                    </td>
+                    <td className="py-4 px-6">
+                      {isVip ? (
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-gradient-to-r from-amber-400/15 via-yellow-500/15 to-amber-500/15 border border-amber-400/40 text-amber-300 font-mono text-[10px] font-extrabold uppercase shadow-sm tracking-wide">
+                          <Crown className="w-3.5 h-3.5 text-amber-400" />
+                          <span>VIP Card</span>
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-300 font-mono text-[10px] font-semibold uppercase tracking-wide">
+                          <Radio className="w-3 h-3 text-cyan-400" />
+                          <span>Regular</span>
+                        </span>
+                      )}
+                    </td>
+                    <td className="py-4 px-6">
+                      <div className="font-semibold text-white text-sm">{ord.customer_name}</div>
+                      <div className="text-[11px] text-slate-400 font-mono">{ord.customer_phone}</div>
+                    </td>
+                    <td className="py-4 px-6 font-mono font-bold text-white text-sm">
+                      ৳{ord.total_amount}
+                    </td>
+                    <td className="py-4 px-6">
+                      <span className={`px-2 py-0.5 rounded text-[10px] font-mono font-semibold ${
+                        ord.payment_status === 'Paid' ? 'bg-emerald-500/10 text-emerald-400' : 'bg-amber-500/10 text-amber-400'
+                      }`}>
+                        {ord.payment_status}
+                      </span>
+                    </td>
+                    <td className="py-4 px-6">
+                      <select
+                        value={ord.status}
+                        onChange={(e) => handleUpdateStatus(ord.id, e.target.value)}
+                        className={`px-2.5 py-1 rounded-lg text-[11px] font-semibold border cursor-pointer focus:outline-none ${getStatusBadge(ord.status)} bg-[#090d18]`}
+                      >
+                        {statuses.filter((s) => s !== 'All').map((s) => (
+                          <option key={s} value={s} className="bg-[#090d18] text-white">
+                            {s}
+                          </option>
+                        ))}
+                      </select>
+                    </td>
+                    <td className="py-4 px-6 text-slate-400 font-mono text-[11px]">
+                      {new Date(ord.created_at).toLocaleDateString()}
+                    </td>
+                  <td className="py-4 px-6 text-right">
+                    <div className="flex items-center justify-end gap-2">
+                      <button
+                        type="button"
+                        onClick={() => setDetailOrder(ord)}
+                        className="px-3 py-1.5 rounded-lg bg-white/[0.05] hover:bg-white/[0.1] text-cyan-400 hover:text-cyan-300 text-xs font-semibold inline-flex items-center gap-1.5 transition-colors cursor-pointer"
+                        title="View Details"
+                      >
+                        <Eye className="w-3.5 h-3.5" />
+                        <span>Details</span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setDeleteConfirmOrder(ord)}
+                        className="px-2.5 py-1.5 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 hover:text-rose-300 border border-rose-500/20 hover:border-rose-500/30 text-xs font-semibold inline-flex items-center gap-1.5 transition-colors cursor-pointer"
+                        title="Delete Order"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                        <span>Delete</span>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
+              {displayedOrders.length === 0 && (
+                <tr>
+                  <td colSpan={8} className="py-12 text-center text-slate-400">
+                    No orders found matching filter criteria.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {detailOrder && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md overflow-y-auto">
+          <div className="relative w-full max-w-xl bg-[#0a0f1d] border border-white/10 rounded-3xl p-6 sm:p-8 shadow-2xl my-8 space-y-6">
+            <div className="flex items-center justify-between border-b border-white/[0.08] pb-4">
+              <div>
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="text-[10px] font-mono uppercase tracking-widest text-slate-400">
+                    Order Details
+                  </span>
+                  {isVipOrder(detailOrder) ? (
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-gradient-to-r from-amber-400 to-yellow-500 text-black text-[9px] font-extrabold font-mono uppercase">
+                      <Crown className="w-3 h-3" />
+                      <span>VIP LUXURY</span>
+                    </span>
+                  ) : (
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 text-[9px] font-bold font-mono uppercase border border-cyan-500/30">
+                      <Radio className="w-3 h-3" />
+                      <span>REGULAR</span>
+                    </span>
+                  )}
+                </div>
+                <h3 className="text-xl font-bold text-white font-mono">
+                  {detailOrder.order_number}
+                </h3>
+              </div>
+              <button
+                onClick={() => setDetailOrder(null)}
+                className="p-2 rounded-xl bg-white/[0.05] text-slate-400 hover:text-white cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/[0.06] space-y-2 text-xs">
+              <div className="flex items-center gap-2 text-white font-semibold">
+                <User className="w-4 h-4 text-cyan-400" />
+                <span>{detailOrder.customer_name}</span>
+              </div>
+              <div className="flex items-center gap-2 text-slate-300">
+                <Mail className="w-4 h-4 text-cyan-400" />
+                <span>{detailOrder.customer_email}</span>
+              </div>
+              <div className="flex items-center gap-2 text-slate-300">
+                <Phone className="w-4 h-4 text-cyan-400" />
+                <span>{detailOrder.customer_phone}</span>
+              </div>
+              <div className="flex items-center gap-2 text-slate-300">
+                <MapPin className="w-4 h-4 text-cyan-400" />
+                <span>{detailOrder.shipping_address}</span>
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              <h4 className="text-xs font-mono uppercase tracking-wider text-slate-400">
+                Custom Laser Engraving Specs
+              </h4>
+              {detailOrder.items?.map((item) => (
+                <div key={item.id} className="p-4 rounded-2xl bg-cyan-950/20 border border-cyan-500/20 space-y-2">
+                  <div className="flex justify-between items-center text-sm font-bold text-white">
+                    <span>{item.product_name}</span>
+                    <span className="font-mono text-cyan-400">Qty: {item.quantity}</span>
+                  </div>
+                  
+                  {item.customization_data && (
+                    <div className="grid grid-cols-2 gap-2 text-xs pt-2 border-t border-cyan-500/10 font-mono">
+                      <div>
+                        <span className="text-slate-400 block text-[10px]">Name:</span>
+                        <span className="text-white">{item.customization_data.name || 'N/A'}</span>
+                      </div>
+                      <div>
+                        <span className="text-slate-400 block text-[10px]">Role:</span>
+                        <span className="text-white">{item.customization_data.designation || 'N/A'}</span>
+                      </div>
+                      <div>
+                        <span className="text-slate-400 block text-[10px]">Company:</span>
+                        <span className="text-white">{item.customization_data.company || 'N/A'}</span>
+                      </div>
+                      <div>
+                        <span className="text-slate-400 block text-[10px]">Edition:</span>
+                        <span className="text-cyan-300">{item.customization_data.edition || 'Essential Black'}</span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+
+            <div className="grid grid-cols-2 gap-4 pt-2">
+              <div>
+                <label className="text-xs text-slate-400 mb-1 block">Fulfillment Status</label>
+                <select
+                  value={detailOrder.status}
+                  onChange={(e) => handleUpdateStatus(detailOrder.id, e.target.value)}
+                  className="w-full px-3 py-2 rounded-xl bg-white/[0.04] border border-white/10 text-white text-xs"
+                >
+                  {statuses.filter((s) => s !== 'All').map((s) => (
+                    <option key={s} value={s} className="bg-[#090d18] text-white">
+                      {s}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="text-xs text-slate-400 mb-1 block">Payment Status</label>
+                <select
+                  value={detailOrder.payment_status}
+                  onChange={(e) => handleUpdatePaymentStatus(detailOrder.id, e.target.value)}
+                  className="w-full px-3 py-2 rounded-xl bg-white/[0.04] border border-white/10 text-white text-xs"
+                >
+                  {['Pending', 'Manual', 'Paid', 'Failed'].map((p) => (
+                    <option key={p} value={p} className="bg-[#090d18] text-white">
+                      {p}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            <div className="pt-4 border-t border-white/10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+              <div>
+                <span className="text-slate-400 text-xs block">Total Order Amount</span>
+                <span className="text-xl font-extrabold text-cyan-400 font-mono">
+                  ৳{detailOrder.total_amount}
+                </span>
+              </div>
+              <div className="flex items-center gap-2 w-full sm:w-auto">
+                <button
+                  type="button"
+                  onClick={() => setDeleteConfirmOrder(detailOrder)}
+                  className="px-4 py-2 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 text-xs font-semibold inline-flex items-center justify-center gap-1.5 transition-all cursor-pointer flex-1 sm:flex-initial"
+                >
+                  <Trash2 className="w-3.5 h-3.5" />
+                  <span>Delete Order</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setDetailOrder(null)}
+                  className="px-4 py-2 rounded-xl bg-white/[0.08] hover:bg-white/[0.12] text-white text-xs font-semibold inline-flex items-center justify-center transition-all cursor-pointer flex-1 sm:flex-initial"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Confirmation Modal */}
+      {deleteConfirmOrder && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in">
+          <div className="relative w-full max-w-md bg-[#0b101d] border border-rose-500/30 rounded-3xl p-6 sm:p-7 shadow-2xl space-y-5">
+            <div className="flex items-start gap-4">
+              <div className="p-3 rounded-2xl bg-rose-500/10 border border-rose-500/20 text-rose-400 shrink-0">
+                <AlertCircle className="w-6 h-6" />
+              </div>
+              <div className="space-y-1">
+                <h3 className="text-base font-bold text-white">Delete Order?</h3>
+                <p className="text-xs text-slate-300 leading-relaxed">
+                  Are you sure you want to delete order <span className="font-mono text-cyan-400 font-bold">{deleteConfirmOrder.order_number}</span> for <span className="text-white font-semibold">{deleteConfirmOrder.customer_name}</span>?
+                </p>
+                <p className="text-[11px] text-slate-400 pt-1">
+                  Total: <span className="font-mono text-white">৳{deleteConfirmOrder.total_amount}</span>. This action cannot be undone.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-end gap-3 pt-2">
+              <button
+                type="button"
+                disabled={deletingId === deleteConfirmOrder.id}
+                onClick={() => setDeleteConfirmOrder(null)}
+                className="px-4 py-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.1] text-slate-300 text-xs font-semibold transition-all cursor-pointer disabled:opacity-50"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                disabled={deletingId === deleteConfirmOrder.id}
+                onClick={() => handleDeleteOrder(deleteConfirmOrder.id)}
+                className="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-xs font-semibold inline-flex items-center gap-2 transition-all cursor-pointer shadow-lg shadow-rose-600/30 disabled:opacity-50"
+              >
+                {deletingId === deleteConfirmOrder.id ? (
+                  <>
+                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                    <span>Deleting...</span>
+                  </>
+                ) : (
+                  <>
+                    <Trash2 className="w-3.5 h-3.5" />
+                    <span>Delete Order</span>
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
