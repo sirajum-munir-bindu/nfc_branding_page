@@ -99,10 +99,24 @@ export default function AdminOrders() {
         setDetailOrder(null);
       }
       setDeleteConfirmOrder(null);
-      fetchOrders();
+      await fetchOrders();
     } catch (err) {
       console.error('Error deleting order:', err);
-      alert('Failed to delete order. Please ensure you are logged in as admin.');
+      if (err.response?.status === 404) {
+        setDeleteConfirmOrder(null);
+        if (detailOrder && detailOrder.id === orderId) {
+          setDetailOrder(null);
+        }
+        await fetchOrders();
+        return;
+      }
+      const message =
+        err.response?.data?.detail ||
+        err.response?.data?.error ||
+        (err.response?.status === 401 || err.response?.status === 403
+          ? 'Session expired or not authorized. Please log in again.'
+          : 'Failed to delete order.');
+      alert(message);
     } finally {
       setDeletingId(null);
     }

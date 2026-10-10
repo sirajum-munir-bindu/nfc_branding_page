@@ -16,17 +16,16 @@ export const getYouTubeEmbedUrl = (url) => {
 };
 
 export default function VideoShowcase({ videoUrl: propVideoUrl }) {
-  const [videoUrl, setVideoUrl] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return propVideoUrl || localStorage.getItem('tapcard_showcase_video_url') || 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
-    }
-    return propVideoUrl || 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
-  });
+  const [videoUrl, setVideoUrl] = useState(propVideoUrl || 'https://www.youtube.com/watch?v=dQw4w9WgXcQ');
 
   useEffect(() => {
     if (propVideoUrl) {
       setVideoUrl(propVideoUrl);
       return;
+    }
+    const saved = typeof window !== 'undefined' ? localStorage.getItem('tapcard_showcase_video_url') : null;
+    if (saved) {
+      setVideoUrl(saved);
     }
     const fetchVideoSetting = async () => {
       try {

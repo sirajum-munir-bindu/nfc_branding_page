@@ -73,14 +73,35 @@ export async function DELETE(request, { params }) {
   try {
     const { id } = await params;
     const numId = parseInt(id, 10);
+    if (isNaN(numId)) {
+      return NextResponse.json({ detail: 'Invalid order ID' }, { status: 400 });
+    }
 
-    await prisma.order.delete({
-      where: { id: BigInt(numId) },
+    const orderId = BigInt(numId);
+
+    // Check if order exists first
+    const existing = await prisma.order.findUnique({
+      where: { id: orderId },
     });
+
+    // If order is already gone, return 204 (idempotent DELETE)
+    if (!existing) {
+      return new NextResponse(null, { status: 204 });
+    }
+
+    // Safely delete order items first, then the order
+    await prisma.$transaction([
+      prisma.orderItem.deleteMany({
+        where: { orderId: orderId },
+      }),
+      prisma.order.delete({
+        where: { id: orderId },
+      }),
+    ]);
 
     return new NextResponse(null, { status: 204 });
   } catch (error) {
     console.error('Order DELETE [id] error:', error);
-    return NextResponse.json({ error: 'Failed to delete order' }, { status: 500 });
+    return NextResponse.json({ error: error.message || 'Failed to delete order' }, { status: 500 });
   }
 }
