@@ -84,14 +84,33 @@ export async function DELETE(request, { params }) {
   try {
     const { id } = await params;
     const numId = parseInt(id, 10);
+    if (isNaN(numId)) {
+      return NextResponse.json({ detail: 'Invalid product ID' }, { status: 400 });
+    }
 
-    await prisma.product.delete({
-      where: { id: BigInt(numId) },
+    const productId = BigInt(numId);
+
+    const existing = await prisma.product.findUnique({
+      where: { id: productId },
     });
+
+    if (!existing) {
+      return NextResponse.json({ detail: 'Product not found.' }, { status: 404 });
+    }
+
+    await prisma.$transaction([
+      prisma.orderItem.updateMany({
+        where: { productId: productId },
+        data: { productId: null },
+      }),
+      prisma.product.delete({
+        where: { id: productId },
+      }),
+    ]);
 
     return new NextResponse(null, { status: 204 });
   } catch (error) {
     console.error('Product DELETE [id] error:', error);
-    return NextResponse.json({ error: 'Failed to delete product' }, { status: 500 });
+    return NextResponse.json({ error: error.message || 'Failed to delete product' }, { status: 500 });
   }
 }
