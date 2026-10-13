@@ -69,7 +69,7 @@ export default function ContactSection() {
                 <div className="w-10 h-10 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-center text-cyan-400">
                   <Phone className="w-4 h-4" />
                 </div>
-                <span>+880 1847-334827</span>
+                <span>+880 1847-334829</span>
               </div>
               <div className="flex items-center gap-3 text-slate-300 text-sm">
                 <div className="w-10 h-10 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-center text-cyan-400">
