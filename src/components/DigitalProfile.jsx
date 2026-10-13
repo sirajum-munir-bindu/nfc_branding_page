@@ -21,7 +21,7 @@ const InstagramIcon = ({ className }) => (
 
 export default function DigitalProfile() {
   const socialLinks = [
-    { name: 'WhatsApp Direct', icon: MessageSquare, value: '+880 1847-334827', href: 'https://wa.me/8801847334827', color: 'text-emerald-400 bg-emerald-500/10' },
+    { name: 'WhatsApp Direct', icon: MessageSquare, value: '+880 1847-334829', href: 'https://wa.me/8801847334829', color: 'text-emerald-400 bg-emerald-500/10' },
     { name: 'LinkedIn Profile', icon: LinkedInIcon, value: 'linkedin.com/in/smbindu', color: 'text-blue-400 bg-blue-500/10' },
     { name: 'Official Website', icon: Globe, value: 'https://tapcard.tech', color: 'text-cyan-400 bg-cyan-500/10' },
     { name: 'Portfolio Showcase', icon: ExternalLink, value: 'readymag.website/bindu', color: 'text-purple-400 bg-purple-500/10' },

@@ -572,20 +572,25 @@ export default function OrderModal({ isOpen, onClose, initialData }) {
                           bKash
                         </div>
                         <div>
-                          <h5 className="font-bold text-xs text-white">bKash Send Money / Merchant</h5>
-                          <span className="text-[10px] text-slate-400">Fast verification</span>
+                          <h5 className="font-bold text-xs text-white">bKash Merchant Payment (মার্চেন্ট পেমেন্ট)</h5>
+                          <span className="text-[10px] text-cyan-300 font-medium">পেমেন্ট অপশন ব্যবহার করুন (Send Money নয়)</span>
                         </div>
                       </div>
                     </div>
 
-                    {/* Send Money Details / TrxID Input Box */}
+                    {/* Merchant Payment Details / TrxID Input Box */}
                     <div className="p-3.5 sm:p-4 rounded-2xl bg-cyan-950/25 border border-cyan-500/30 space-y-2.5">
+                      <div className="p-2 rounded-xl bg-amber-500/10 border border-amber-500/20 text-[11px] text-amber-200 flex items-center gap-2">
+                        <span className="text-sm">⚠️</span>
+                        <span>বিকাশ অ্যাপে <strong>&quot;Make Payment&quot; (পেমেন্ট)</strong> অপশন সিলেক্ট করুন। <em>Send Money করবেন না।</em></span>
+                      </div>
+
                       <div className="text-xs text-slate-200 flex flex-wrap items-center justify-between gap-1.5">
                         <span className="text-xs text-slate-300 font-medium">
-                          Send <strong className="text-cyan-400 font-mono font-bold">৳{regularTotalPayable}</strong> to Official Number:
+                          Pay <strong className="text-cyan-400 font-mono font-bold">৳{regularTotalPayable}</strong> to Merchant Number:
                         </span>
-                        <span className="font-mono font-extrabold text-cyan-300 text-xs sm:text-sm tracking-wide bg-cyan-500/10 px-2.5 py-0.5 rounded-lg border border-cyan-500/20">
-                          01847-334827
+                        <span className="font-mono font-extrabold text-cyan-300 text-xs sm:text-sm tracking-wide bg-cyan-500/10 px-2.5 py-0.5 rounded-lg border border-cyan-500/20 select-all">
+                          01847-334829
                         </span>
                       </div>
 
@@ -906,18 +911,23 @@ export default function OrderModal({ isOpen, onClose, initialData }) {
                             bKash
                           </div>
                           <div>
-                            <h5 className="font-bold text-xs text-white">bKash Send Money / Merchant</h5>
-                            <span className="text-[10px] text-slate-400">Fast verification</span>
+                            <h5 className="font-bold text-xs text-white">bKash Merchant Payment (মার্চেন্ট পেমেন্ট)</h5>
+                            <span className="text-[10px] text-cyan-300 font-medium">পেমেন্ট অপশন ব্যবহার করুন (Send Money নয়)</span>
                           </div>
                         </div>
                       </div>
 
-                      {/* Send Money Details / TrxID Input Box */}
+                      {/* Merchant Payment Details / TrxID Input Box */}
                       <div className="p-3 rounded-2xl bg-cyan-950/25 border border-cyan-500/30 space-y-2">
+                        <div className="p-2 rounded-xl bg-amber-500/10 border border-amber-500/20 text-[11px] text-amber-200 flex items-center gap-2">
+                          <span className="text-sm">⚠️</span>
+                          <span>বিকাশ অ্যাপে <strong>&quot;Make Payment&quot; (পেমেন্ট)</strong> করুন। <em>Send Money করবেন না।</em></span>
+                        </div>
+
                         <div className="text-xs text-slate-200 flex flex-wrap items-center gap-1.5">
-                          <span>Send <strong className="text-cyan-400 font-mono">৳{totalPayable}</strong> to Official Number:</span>
-                          <span className="font-mono font-extrabold text-cyan-300 text-xs sm:text-sm tracking-wide bg-cyan-500/10 px-2 py-0.5 rounded-lg border border-cyan-500/20">
-                            01847-334827
+                          <span>Pay <strong className="text-cyan-400 font-mono">৳{totalPayable}</strong> to Merchant Number:</span>
+                          <span className="font-mono font-extrabold text-cyan-300 text-xs sm:text-sm tracking-wide bg-cyan-500/10 px-2 py-0.5 rounded-lg border border-cyan-500/20 select-all">
+                            01847-334829
                           </span>
                         </div>
                         <div>

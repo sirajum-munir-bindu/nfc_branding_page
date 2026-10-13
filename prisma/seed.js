@@ -98,6 +98,64 @@ async function main() {
     console.log('Seeded default Card Designs.');
   }
 
+  // 3b. Check and Seed Initial Products if empty
+  const productCount = await prisma.product.count();
+  if (productCount === 0) {
+    await prisma.product.createMany({
+      data: [
+        {
+          name: 'Essential Black',
+          slug: 'essential-black',
+          edition: 'Standard Edition',
+          description: 'Sleek matte obsidian finish with laser-etched metallic accents.',
+          price: 599.0,
+          regularPrice: 599.0,
+          vipPrice: 899.0,
+          stock: 100,
+          isActive: true,
+          colorHex: '#0b0f19',
+          finish: 'Matte Brushed',
+          badgeText: 'Best Seller',
+          features: ['Laser-etched details', 'Dual-frequency NFC chip', 'Waterproof finish'],
+          displayOrder: 1,
+        },
+        {
+          name: 'Midnight Purple',
+          slug: 'midnight-purple',
+          edition: 'Pro Edition',
+          description: 'Deep cosmic violet with radiant cyan cybernetic glow.',
+          price: 699.0,
+          regularPrice: 699.0,
+          vipPrice: 999.0,
+          stock: 100,
+          isActive: true,
+          colorHex: '#170e2b',
+          finish: 'Gloss Metallic',
+          badgeText: 'Popular',
+          features: ['Deep chromatic sheen', 'Subtle prism refraction', 'Impact resistant'],
+          displayOrder: 2,
+        },
+        {
+          name: 'Sovereign Gold',
+          slug: 'sovereign-gold',
+          edition: 'Executive Edition',
+          description: 'Executive brushed champagne gold for uncompromising prestige.',
+          price: 899.0,
+          regularPrice: 899.0,
+          vipPrice: 1199.0,
+          stock: 50,
+          isActive: true,
+          colorHex: '#241a06',
+          finish: 'Brushed Gold',
+          badgeText: 'VIP Exclusive',
+          features: ['24K plated foil trim', 'Executive weight core', 'Custom monogram ready'],
+          displayOrder: 3,
+        },
+      ],
+    });
+    console.log('Seeded default Products.');
+  }
+
   // 4. Check and Seed FAQs if empty
   const faqCount = await prisma.fAQ.count();
   if (faqCount === 0) {
