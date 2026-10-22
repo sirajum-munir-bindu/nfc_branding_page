@@ -79,7 +79,7 @@ export default function Footer() {
                 <a
                   href="https://www.linkedin.com/company/skill-jobs-nextgen/"
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   className="inline-flex items-center gap-2.5 text-slate-400 hover:text-cyan-400 transition-colors group"
                 >
                   <svg
@@ -96,7 +96,7 @@ export default function Footer() {
                 <a
                   href="https://www.facebook.com/share/1Jh5PzB6QG/"
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   className="inline-flex items-center gap-2.5 text-slate-400 hover:text-cyan-400 transition-colors group"
                 >
                   <svg
@@ -113,7 +113,7 @@ export default function Footer() {
                 <a
                   href="https://www.instagram.com/skilljobsnextgen?stkn=MW04YTd3cDV6dXZsag=="
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   className="inline-flex items-center gap-2.5 text-slate-400 hover:text-cyan-400 transition-colors group"
                 >
                   <svg
@@ -136,7 +136,7 @@ export default function Footer() {
                 <a
                   href="https://wa.me/8801847334827"
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   className="inline-flex items-center gap-2.5 text-slate-400 hover:text-cyan-400 transition-colors group"
                 >
                   <svg
