@@ -17,6 +17,8 @@ export const ROUTES = {
     FAQS: '/admin/faqs',
     MESSAGES: '/admin/messages',
     CARD_DESIGNS: '/admin/card-designs',
+    DEMO_PROFILE: '/admin/demo-profile',
+    NOTICE: '/admin/notice',
     SETTINGS: '/admin/settings',
   },
 };
