@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { 
   LayoutDashboard, Package, ShoppingCart, Users, 
   HelpCircle, LogOut, ExternalLink, Menu, X, Radio, Bell, 
-  ShieldCheck, Video, CreditCard, MessageSquare, Smartphone
+  ShieldCheck, Video, CreditCard, MessageSquare, Smartphone, BellRing
 } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
@@ -48,6 +48,7 @@ export default function AdminLayout({ children }) {
     { name: 'FAQs', path: ROUTES.ADMIN.FAQS, icon: HelpCircle },
     { name: 'Card Designs', path: ROUTES.ADMIN.CARD_DESIGNS, icon: CreditCard },
     { name: 'Demo Profile', path: ROUTES.ADMIN.DEMO_PROFILE, icon: Smartphone },
+    { name: 'Notice', path: ROUTES.ADMIN.NOTICE, icon: BellRing },
     { name: 'Messages', path: ROUTES.ADMIN.MESSAGES, icon: MessageSquare },
     { name: 'Video & Settings', path: ROUTES.ADMIN.SETTINGS, icon: Video },
   ];

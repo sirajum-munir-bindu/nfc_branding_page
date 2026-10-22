@@ -137,6 +137,7 @@ export const adminService = {
 export const settingsService = {
   getSettings: () => api.get('/settings'),
   updateSetting: (key, value) => api.post('/settings', { key, value }),
+  updateMultipleSettings: (settings) => api.post('/settings', { settings }),
 };
 
 export default api;

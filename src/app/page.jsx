@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import NoticeModal from '@/components/NoticeModal';
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import ProductShowcase from '@/components/ProductShowcase';
@@ -69,6 +70,10 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-[#05070c] text-slate-100 flex flex-col selection:bg-cyan-500 selection:text-black">
+
+      {/* Offer Popup Modal */}
+      <NoticeModal />
+
       {/* Sticky Glass Navbar */}
       <Navbar
         onOpenOrderModal={() =>
@@ -79,6 +84,8 @@ export default function HomePage() {
       <main className="flex-grow">
         {/* 1. Hero */}
         <Hero onGetCardClick={handleGetCardClick} products={products} />
+
+
 
         {/* 2. Product Showcase */}
         <ProductShowcase onExploreClick={handleGetCardClick} products={products} />
