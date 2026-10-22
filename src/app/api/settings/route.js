@@ -15,6 +15,10 @@ export async function GET() {
       settingsDict.showcase_video_url = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
     }
 
+    if (settingsDict.demo_profile_url === undefined) {
+      settingsDict.demo_profile_url = '';
+    }
+
     return NextResponse.json(settingsDict);
   } catch (error) {
     console.error('Settings GET error:', error);

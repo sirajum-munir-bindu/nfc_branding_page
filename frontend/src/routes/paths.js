@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Centralized Route Paths Configuration
  * 
  * Changing any path here updates the corresponding URL everywhere across the application.
@@ -19,6 +19,7 @@ export const ROUTES = {
     FAQS: '/admin/faqs',
     MESSAGES: '/admin/messages',
     CARD_DESIGNS: '/admin/card-designs',
+    DEMO_PROFILE: '/admin/demo-profile',
     SETTINGS: '/admin/settings',
   },
 };
