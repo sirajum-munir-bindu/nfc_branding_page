@@ -15,13 +15,11 @@ export default function Footer() {
           {/* Brand Col */}
           <div className="col-span-2 space-y-4">
             <div className="flex items-center gap-3">
-              <div className="py-1 px-2.5 rounded-xl bg-white/[0.04] border border-white/10">
-                <img
-                  src="/logo.png"
-                  alt="Skill.jobs"
-                  className="h-7 w-auto object-contain"
-                />
-              </div>
+              <img
+                src="/logo.png"
+                alt="Skill.jobs"
+                className="h-7 sm:h-8 w-auto object-contain"
+              />
               <span className="text-[10px] uppercase tracking-widest text-cyan-400 font-mono font-semibold px-2 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/20">
                 Smart NFC
               </span>

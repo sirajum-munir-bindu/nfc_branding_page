@@ -44,9 +44,7 @@ export default function AdminLogin() {
         {/* Brand */}
         <div className="text-center space-y-2">
           <div className="flex justify-center mb-2">
-            <div className="py-2 px-4 rounded-2xl bg-white/[0.04] border border-white/10 shadow-lg shadow-cyan-500/10">
-              <img src="/logo.png" alt="Skill.jobs" className="h-9 w-auto object-contain" />
-            </div>
+            <img src="/logo.png" alt="Skill.jobs" className="h-10 w-auto object-contain" />
           </div>
           <h2 className="text-2xl font-extrabold text-white tracking-tight">
             Skill.jobs Admin Suite

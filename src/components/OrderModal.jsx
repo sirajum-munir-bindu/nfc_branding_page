@@ -74,16 +74,36 @@ export default function OrderModal({ isOpen, onClose, initialData }) {
 
   if (!isOpen) return null;
 
-  const regularPrice = initialData?.regularPrice 
+  const rawRegularPrice = initialData?.regularPrice 
     ? Number(initialData.regularPrice) 
     : (initialData?.price ? Number(initialData.price) : 500);
+
+  const rawDiscountPrice = initialData?.discountPrice != null && Number(initialData.discountPrice) > 0
+    ? Number(initialData.discountPrice)
+    : null;
+
+  const hasDiscount = Boolean(
+    initialData?.hasDiscount ||
+    (rawDiscountPrice && rawDiscountPrice < rawRegularPrice)
+  );
+
+  const regularCardPrice = hasDiscount && rawDiscountPrice ? rawDiscountPrice : rawRegularPrice;
+
   const vipPrice = initialData?.vipPrice 
     ? Number(initialData.vipPrice) 
-    : (regularPrice + 300);
+    : (regularCardPrice + 300);
+
   const courierDeliveryFee = deliveryLocation === 'outside_dhaka' ? 150 : 60;
-  const regularTotalPayable = regularPrice + courierDeliveryFee;
+
+  // Regular order totals:
+  const regularOriginalTotal = rawRegularPrice + courierDeliveryFee;
+  const regularTotalPayable = regularCardPrice + courierDeliveryFee;
+
+  // VIP order totals:
   const cardSubtotal = vipPrice * formData.quantity;
   const totalPayable = cardSubtotal + courierDeliveryFee;
+  const vipOriginalCardPrice = rawRegularPrice + 300;
+  const vipOriginalTotal = (vipOriginalCardPrice * formData.quantity) + courierDeliveryFee;
 
   const handleSelectRegular = () => {
     setErrorMessage(null);
@@ -135,7 +155,9 @@ export default function OrderModal({ isOpen, onClose, initialData }) {
         payment_method: paymentMethod,
         trx_id: trxId,
         courier_fee: courierDeliveryFee,
-        card_subtotal: regularPrice,
+        card_subtotal: regularCardPrice,
+        regular_price: rawRegularPrice,
+        discount_price: hasDiscount ? rawDiscountPrice : null,
         total_payable: regularTotalPayable,
       },
     };
@@ -152,7 +174,7 @@ export default function OrderModal({ isOpen, onClose, initialData }) {
         customer_email: formData.customer_email,
         customer_phone: formData.customer_phone,
         trx_id: trxId,
-        total_amount: regularPrice,
+        total_amount: regularTotalPayable,
       });
 
       try {
@@ -325,7 +347,14 @@ export default function OrderModal({ isOpen, onClose, initialData }) {
                         <div className="p-2.5 rounded-xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 group-hover:bg-cyan-500 group-hover:text-black transition-all">
                           <Radio className="w-5 h-5" />
                         </div>
-                        <span className="text-xs font-mono font-bold text-slate-400">৳{regularPrice}</span>
+                        {hasDiscount ? (
+                          <div className="flex items-center gap-1.5 font-mono">
+                            <span className="text-xs text-slate-500 line-through">৳{rawRegularPrice}</span>
+                            <span className="text-xs font-bold text-cyan-400">৳{regularCardPrice}</span>
+                          </div>
+                        ) : (
+                          <span className="text-xs font-mono font-bold text-slate-400">৳{rawRegularPrice}</span>
+                        )}
                       </div>
 
                       <h4 className="text-base sm:text-lg font-extrabold text-white group-hover:text-cyan-400 transition-colors">
@@ -586,8 +615,23 @@ export default function OrderModal({ isOpen, onClose, initialData }) {
                       </div>
 
                       <div className="text-xs text-slate-200 flex flex-wrap items-center justify-between gap-1.5">
-                        <span className="text-xs text-slate-300 font-medium">
-                          Pay <strong className="text-cyan-400 font-mono font-bold">৳{regularTotalPayable}</strong> to Merchant Number:
+                        <span className="text-xs text-slate-300 font-medium flex items-center gap-1.5 flex-wrap">
+                          Pay{' '}
+                          {hasDiscount ? (
+                            <>
+                              <span className="text-slate-400 line-through font-mono text-xs">
+                                ৳{regularOriginalTotal}
+                              </span>
+                              <strong className="text-cyan-400 font-mono font-bold text-sm sm:text-base">
+                                ৳{regularTotalPayable}
+                              </strong>
+                            </>
+                          ) : (
+                            <strong className="text-cyan-400 font-mono font-bold">
+                              ৳{regularTotalPayable}
+                            </strong>
+                          )}{' '}
+                          to Merchant Number:
                         </span>
                         <span className="font-mono font-extrabold text-cyan-300 text-xs sm:text-sm tracking-wide bg-cyan-500/10 px-2.5 py-0.5 rounded-lg border border-cyan-500/20 select-all">
                           01847-334829
@@ -925,7 +969,24 @@ export default function OrderModal({ isOpen, onClose, initialData }) {
                         </div>
 
                         <div className="text-xs text-slate-200 flex flex-wrap items-center gap-1.5">
-                          <span>Pay <strong className="text-cyan-400 font-mono">৳{totalPayable}</strong> to Merchant Number:</span>
+                          <span className="text-xs text-slate-300 font-medium flex items-center gap-1.5 flex-wrap">
+                            Pay{' '}
+                            {hasDiscount ? (
+                              <>
+                                <span className="text-slate-400 line-through font-mono text-xs">
+                                  ৳{vipOriginalTotal}
+                                </span>
+                                <strong className="text-cyan-400 font-mono font-bold text-sm sm:text-base">
+                                  ৳{totalPayable}
+                                </strong>
+                              </>
+                            ) : (
+                              <strong className="text-cyan-400 font-mono font-bold">
+                                ৳{totalPayable}
+                              </strong>
+                            )}{' '}
+                            to Merchant Number:
+                          </span>
                           <span className="font-mono font-extrabold text-cyan-300 text-xs sm:text-sm tracking-wide bg-cyan-500/10 px-2 py-0.5 rounded-lg border border-cyan-500/20 select-all">
                             01847-334829
                           </span>
