@@ -81,9 +81,7 @@ export default function AdminLayout({ children }) {
         <div>
           <div className="p-6 border-b border-white/[0.08] flex items-center justify-between">
             <Link href={ROUTES.ADMIN.DASHBOARD} className="flex items-center gap-2.5">
-              <div className="py-1 px-2 rounded-xl bg-white/[0.04] border border-white/10">
-                <img src="/logo.png" alt="Skill.jobs" className="h-6 w-auto object-contain" />
-              </div>
+              <img src="/logo.png" alt="Skill.jobs" className="h-7 w-auto object-contain" />
               <div className="flex flex-col">
                 <span className="font-extrabold text-sm text-white leading-tight">
                   Skill.jobs<span className="text-cyan-400 font-mono text-xs ml-1">OS</span>

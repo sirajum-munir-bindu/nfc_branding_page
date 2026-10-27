@@ -41,12 +41,15 @@ export default function HomePage() {
 
   // Triggered from Product cards 'Order Now'
   const handleSelectProduct = (product) => {
-    const regularCost = Number(
-      product.discount_price && product.discount_price > 0
-        ? product.discount_price
-        : product.regular_price || product.price || 500
+    const origRegularPrice = Number(product.regular_price || product.price || 500);
+    const rawDiscount = product.discount_price != null ? Number(product.discount_price) : null;
+    const hasDiscount = Boolean(
+      product.has_discount ||
+      (rawDiscount && rawDiscount > 0 && rawDiscount < origRegularPrice)
     );
-    const vipCost = product.vip_price ? Number(product.vip_price) : regularCost + 300;
+    const discountPrice = hasDiscount ? rawDiscount : null;
+    const effectiveRegularPrice = hasDiscount ? discountPrice : origRegularPrice;
+    const vipCost = product.vip_price ? Number(product.vip_price) : effectiveRegularPrice + 300;
 
     setOrderInitialData({
       productId: product.id,
@@ -59,7 +62,10 @@ export default function HomePage() {
         ? 'gold'
         : 'black',
       price: vipCost,
-      regularPrice: regularCost,
+      regularPrice: origRegularPrice,
+      discountPrice: discountPrice,
+      hasDiscount: hasDiscount,
+      effectiveRegularPrice: effectiveRegularPrice,
       vipPrice: vipCost,
       image_url: product.image_url || product.image || null,
       designation: '',
@@ -77,7 +83,7 @@ export default function HomePage() {
       {/* Sticky Glass Navbar */}
       <Navbar
         onOpenOrderModal={() =>
-          handleSelectProduct({ id: null, edition: 'Essential Black', price: 599 })
+          handleSelectProduct({ id: null, edition: 'Essential Black', price: 599, regular_price: 599 })
         }
       />
 

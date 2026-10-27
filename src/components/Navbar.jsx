@@ -32,13 +32,11 @@ export default function Navbar({ onOpenOrderModal }) {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
         <a href="#hero" className="flex items-center gap-3 group">
-          <div className="py-1 px-2.5 rounded-xl bg-white/[0.04] border border-white/10 group-hover:border-cyan-500/30 transition-all duration-300">
-            <img
-              src="/logo.png"
-              alt="Skill.jobs"
-              className="h-7 sm:h-8 w-auto object-contain"
-            />
-          </div>
+          <img
+            src="/logo.png"
+            alt="Skill.jobs"
+            className="h-8 sm:h-9 w-auto object-contain hover:opacity-90 transition-opacity"
+          />
           <span className="hidden sm:inline-block text-[10px] uppercase tracking-widest text-cyan-400 font-mono font-semibold px-2 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/20">
             Smart NFC
           </span>
