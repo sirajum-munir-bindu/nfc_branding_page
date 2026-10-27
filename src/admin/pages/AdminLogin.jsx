@@ -43,13 +43,13 @@ export default function AdminLogin() {
         
         {/* Brand */}
         <div className="text-center space-y-2">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-blue-600 via-cyan-500 to-indigo-600 p-[1.5px] mx-auto shadow-lg shadow-cyan-500/20">
-            <div className="w-full h-full bg-[#070b13] rounded-[14px] flex items-center justify-center">
-              <Radio className="w-6 h-6 text-cyan-400" />
+          <div className="flex justify-center mb-2">
+            <div className="py-2 px-4 rounded-2xl bg-white/[0.04] border border-white/10 shadow-lg shadow-cyan-500/10">
+              <img src="/logo.png" alt="Skill.jobs" className="h-9 w-auto object-contain" />
             </div>
           </div>
           <h2 className="text-2xl font-extrabold text-white tracking-tight">
-            TapCard Admin Suite
+            Skill.jobs Admin Suite
           </h2>
           <p className="text-xs text-slate-400">
             Sign in with administrative credentials to manage products, orders, and telemetry.

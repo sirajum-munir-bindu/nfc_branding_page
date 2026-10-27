@@ -81,16 +81,14 @@ export default function AdminLayout({ children }) {
         <div>
           <div className="p-6 border-b border-white/[0.08] flex items-center justify-between">
             <Link href={ROUTES.ADMIN.DASHBOARD} className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-blue-600 via-cyan-500 to-indigo-600 p-[1.5px]">
-                <div className="w-full h-full bg-[#070b13] rounded-[10px] flex items-center justify-center">
-                  <Radio className="w-4 h-4 text-cyan-400" />
-                </div>
+              <div className="py-1 px-2 rounded-xl bg-white/[0.04] border border-white/10">
+                <img src="/logo.png" alt="Skill.jobs" className="h-6 w-auto object-contain" />
               </div>
               <div className="flex flex-col">
-                <span className="font-extrabold text-base text-white leading-tight">
-                  TapCard<span className="text-cyan-400 font-mono text-xs ml-1">OS</span>
+                <span className="font-extrabold text-sm text-white leading-tight">
+                  Skill.jobs<span className="text-cyan-400 font-mono text-xs ml-1">OS</span>
                 </span>
-                <span className="text-[10px] font-mono text-slate-400">Management Suite</span>
+                <span className="text-[10px] font-mono text-slate-400">Admin Suite</span>
               </div>
             </Link>
           </div>
