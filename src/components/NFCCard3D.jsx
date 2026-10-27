@@ -245,15 +245,12 @@ export default function NFCCard3D({
                 {/* TOP ROW: Skill.jobs Logo (Left) and NEXGEN Logo (Right) */}
                 <div className="relative z-10 flex items-start justify-between">
                   {/* Skill.jobs Logo with Arrow icon */}
-                  <div className="flex items-center gap-1.5">
-                    <div className="flex items-center">
-                      <span className="text-xl sm:text-2xl font-black tracking-tight text-white font-sans">
-                        Skill
-                      </span>
-                      <span className="text-xl sm:text-2xl font-black tracking-tight text-sky-400 font-sans">
-                        .jobs
-                      </span>
-                    </div>
+                  <div className="flex items-center">
+                    <img
+                      src="/logo.png"
+                      alt="Skill.jobs"
+                      className="h-6 sm:h-7.5 w-auto object-contain drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]"
+                    />
                   </div>
 
                   {/* NEXGEN Logo */}

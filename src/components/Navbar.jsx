@@ -31,22 +31,18 @@ export default function Navbar({ onOpenOrderModal }) {
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-        <a href="#hero" className="flex items-center gap-2.5 group">
-          <div className="relative w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 via-cyan-500 to-indigo-600 p-[1.5px] shadow-lg shadow-blue-500/20 group-hover:shadow-cyan-500/30 transition-all duration-300">
-            <div className="w-full h-full bg-[#070b13] rounded-[10px] flex items-center justify-center">
-              <Radio className="w-5 h-5 text-cyan-400 group-hover:scale-110 transition-transform" />
-            </div>
+        <a href="#hero" className="flex items-center gap-3 group">
+          <div className="py-1 px-2.5 rounded-xl bg-white/[0.04] border border-white/10 group-hover:border-cyan-500/30 transition-all duration-300">
+            <img
+              src="/logo.png"
+              alt="Skill.jobs"
+              className="h-7 sm:h-8 w-auto object-contain"
+            />
           </div>
-          <div className="flex flex-col">
-            <span className="font-extrabold text-xl tracking-tight text-white flex items-center gap-1">
-              TapCard<span className="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
-            </span>
-            <span className="text-[10px] uppercase tracking-widest text-slate-400 font-medium -mt-1">
-              E-Visiting Card
-            </span>
-          </div>
+          <span className="hidden sm:inline-block text-[10px] uppercase tracking-widest text-cyan-400 font-mono font-semibold px-2 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/20">
+            Smart NFC
+          </span>
         </a>
-
 
         <div className="hidden md:flex items-center gap-3">
           <a
@@ -98,4 +94,3 @@ export default function Navbar({ onOpenOrderModal }) {
     </header>
   );
 }
-

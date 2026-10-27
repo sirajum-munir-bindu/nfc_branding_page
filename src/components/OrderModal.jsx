@@ -268,9 +268,9 @@ export default function OrderModal({ isOpen, onClose, initialData }) {
                 <span>← Back to Options</span>
               </button>
             ) : (
-              <div className="flex items-center gap-1.5 text-xs text-cyan-400 font-mono">
-                <ShoppingBag className="w-4 h-4" />
-                <span>TapCard Checkout</span>
+              <div className="flex items-center gap-2 text-xs text-cyan-400 font-mono">
+                <img src="/logo.png" alt="Skill.jobs" className="h-5 w-auto object-contain" />
+                <span>NFC Checkout</span>
               </div>
             )}
 
@@ -1072,7 +1072,6 @@ export default function OrderModal({ isOpen, onClose, initialData }) {
                 </button>
               </div>
             )}
-
           </div>
         </motion.div>
       </div>

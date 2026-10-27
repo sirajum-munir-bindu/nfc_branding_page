@@ -148,7 +148,7 @@ export default function DigitalProfile() {
                     <div className="relative w-20 h-20 mx-auto mb-3">
                       <div className="w-full h-full rounded-full p-1 bg-gradient-to-tr from-cyan-400 to-blue-600 shadow-lg">
                         <img
-                          src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80"
+                          src="/default-avatar.png"
                           alt="Profile Avatar"
                           className="w-full h-full rounded-full object-cover"
                         />
@@ -163,7 +163,7 @@ export default function DigitalProfile() {
                       Founder & Chief Architect
                     </p>
                     <p className="text-[11px] text-slate-400">
-                      TapCard Global Ltd • Dhaka, Bangladesh
+                      Skill.jobs • Dhaka, Bangladesh
                     </p>
 
                     <div className="my-4">
@@ -219,7 +219,7 @@ export default function DigitalProfile() {
 
                     <div className="mt-5 pt-3 border-t border-white/10 flex items-center justify-center gap-1.5 text-[9px] font-mono text-slate-400">
                       <Sparkles className="w-3 h-3 text-cyan-400" />
-                      <span>Powered by TapCard NFC Platform</span>
+                      <span>Powered by Skill.jobs NFC Platform</span>
                     </div>
                   </div>
                 )}

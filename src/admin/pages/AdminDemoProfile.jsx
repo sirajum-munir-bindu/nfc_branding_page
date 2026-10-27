@@ -377,7 +377,7 @@ export default function AdminDemoProfile() {
                       <div className="relative w-20 h-20 mx-auto mb-3">
                         <div className="w-full h-full rounded-full p-1 bg-gradient-to-tr from-cyan-400 to-blue-600 shadow-lg">
                           <img
-                            src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80"
+                            src="/default-avatar.png"
                             alt="Profile Avatar"
                             className="w-full h-full rounded-full object-cover"
                           />

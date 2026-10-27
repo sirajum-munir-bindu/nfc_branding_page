@@ -14,14 +14,16 @@ export default function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 lg:gap-12 mb-12">
           {/* Brand Col */}
           <div className="col-span-2 space-y-4">
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-blue-600 via-cyan-500 to-indigo-600 p-[1.5px]">
-                <div className="w-full h-full bg-[#070b13] rounded-[10px] flex items-center justify-center">
-                  <Radio className="w-4 h-4 text-cyan-400" />
-                </div>
+            <div className="flex items-center gap-3">
+              <div className="py-1 px-2.5 rounded-xl bg-white/[0.04] border border-white/10">
+                <img
+                  src="/logo.png"
+                  alt="Skill.jobs"
+                  className="h-7 w-auto object-contain"
+                />
               </div>
-              <span className="font-extrabold text-xl tracking-tight text-white">
-                TapCard<span className="text-cyan-400">.</span>
+              <span className="text-[10px] uppercase tracking-widest text-cyan-400 font-mono font-semibold px-2 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/20">
+                Smart NFC
               </span>
             </div>
 
@@ -157,7 +159,7 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="pt-8 border-t border-white/[0.06] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
           <div>
-            © {new Date().getFullYear()} TapCard Inc. All rights reserved. Built
+            © {new Date().getFullYear()} Skill.jobs NFC. All rights reserved. Built
             for modern networking.
           </div>
 
@@ -184,4 +186,3 @@ export default function Footer() {
     </footer>
   );
 }
-
