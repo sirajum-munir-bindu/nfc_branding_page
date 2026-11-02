@@ -335,7 +335,7 @@ export default function AdminAnalytics() {
                   <p>1. Open <a href="https://analytics.google.com" target="_blank" rel="noreferrer" className="text-cyan-400 underline font-semibold">Google Analytics</a> &gt; <strong>Admin (gear icon)</strong>.</p>
                   <p>2. Under <strong>Property Settings</strong>, click <strong>Property Access Management</strong>.</p>
                   <p>3. Click <strong>+ (Add users)</strong>, paste the email above, assign the <strong>Viewer</strong> role, and click <strong>Add</strong>.</p>
-                  <p className="text-amber-300/80 italic">Note: Make sure your Property ID (16251926558) corresponds to Property Settings &gt; Property Details &gt; Property ID.</p>
+                  <p className="text-amber-300/80 italic">Note: Make sure your Property ID corresponds to Google Analytics &gt; Property Settings &gt; Property Details &gt; Property ID.</p>
                 </div>
               </div>
             </div>
