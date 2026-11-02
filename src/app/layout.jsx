@@ -1,4 +1,5 @@
 import './globals.css';
+import GoogleAnalyticsTracker from '@/components/GoogleAnalyticsTracker';
 
 const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL &&
@@ -54,6 +55,7 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body className="bg-[#05070c] text-[#f1f5f9] antialiased selection:bg-cyan-500 selection:text-black">
+        <GoogleAnalyticsTracker />
         {children}
       </body>
     </html>

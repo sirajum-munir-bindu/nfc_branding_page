@@ -1,32 +1,34 @@
-# Python
-venv/
-backend/venv/
-*.pyc
-__pycache__/
-backend/**/__pycache__/
-staticfiles/
-backend/staticfiles/
-media/
-backend/media/
-*.sqlite3
-
-# Node / Frontend
+# Dependencies
 node_modules/
-frontend/node_modules/
-dist/
-frontend/dist/
+.pnp
+.pnp.js
+
+# Testing & Coverage
+coverage/
+
+# Next.js build output
 .next/
 out/
+build/
+dist/
 
-# Environment
+# Environment files
+.env*.local
 .env
-.env.local
-.env.production.local
-backend/.env
-frontend/.env
-frontend/.env.local
 
-# IDE
+# Debug & logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Vercel
+.vercel
+
+# TypeScript & IDE
+*.tsbuildinfo
+next-env.d.ts
 .vscode/
 .idea/
 .DS_Store
+*.pem

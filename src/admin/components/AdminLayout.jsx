@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { 
   LayoutDashboard, Package, ShoppingCart, Users, 
   HelpCircle, LogOut, ExternalLink, Menu, X, Radio, Bell, 
-  ShieldCheck, Video, CreditCard, MessageSquare, Smartphone, BellRing
+  ShieldCheck, Video, CreditCard, MessageSquare, Smartphone, BellRing, BarChart3
 } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
@@ -41,6 +41,7 @@ export default function AdminLayout({ children }) {
 
   const navItems = [
     { name: 'Dashboard', path: ROUTES.ADMIN.DASHBOARD, icon: LayoutDashboard },
+    { name: 'Website Analytics', path: ROUTES.ADMIN.ANALYTICS, icon: BarChart3 },
     { name: 'Products', path: ROUTES.ADMIN.PRODUCTS, icon: Package },
     { name: 'Orders', path: ROUTES.ADMIN.ORDERS, icon: ShoppingCart },
     { name: 'Customers', path: ROUTES.ADMIN.CUSTOMERS, icon: Users },

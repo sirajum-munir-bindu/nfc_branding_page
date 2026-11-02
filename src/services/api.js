@@ -140,4 +140,9 @@ export const settingsService = {
   updateMultipleSettings: (settings) => api.post('/settings', { settings }),
 };
 
+export const analyticsService = {
+  getAnalytics: (params) => api.get('/admin/analytics', { params }),
+  getRealtimeAnalytics: () => api.get('/admin/analytics/realtime'),
+};
+
 export default api;

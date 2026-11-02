@@ -10,6 +10,7 @@ export const ROUTES = {
     ROOT: '/admin',
     LOGIN: '/admin/login',
     DASHBOARD: '/admin/dashboard',
+    ANALYTICS: '/admin/analytics',
     PRODUCTS: '/admin/products',
     ORDERS: '/admin/orders',
     CUSTOMERS: '/admin/customers',
