@@ -31,12 +31,38 @@ export function verifyToken(token) {
 }
 
 /**
- * Extracts and authenticates the user from Next.js Request headers.
+ * Extracts and authenticates the user from Next.js Request headers or cookies.
  */
 export async function getAuthUser(request) {
   try {
-    const authHeader = request.headers.get('authorization') || '';
-    const token = authHeader.startsWith('Bearer ') ? authHeader.slice(7).trim() : null;
+    let token = null;
+
+    if (request && request.headers) {
+      const authHeader = request.headers.get('authorization') || '';
+      if (authHeader.startsWith('Bearer ')) {
+        token = authHeader.slice(7).trim();
+      }
+      if (!token && request.cookies) {
+        token =
+          request.cookies.get('tapcard_admin_token')?.value ||
+          request.cookies.get('birthday_admin_token')?.value ||
+          request.cookies.get('token')?.value;
+      }
+    }
+
+    // Try reading cookies from next/headers if not extracted from request
+    if (!token) {
+      try {
+        const { cookies } = await import('next/headers');
+        const cookieStore = await cookies();
+        token =
+          cookieStore.get('tapcard_admin_token')?.value ||
+          cookieStore.get('birthday_admin_token')?.value ||
+          cookieStore.get('token')?.value;
+      } catch {
+        // Not in Server Component / Action context
+      }
+    }
 
     if (!token) return null;
 
@@ -83,7 +109,8 @@ export async function requireAdmin(request) {
     return { error: 'Authentication credentials were not provided.', status: 401 };
   }
 
-  const isAdminOrStaff = user.isStaff || user.isSuperuser || ['ADMIN', 'STAFF'].includes(user.role);
+  const isAdminOrStaff =
+    user.isStaff || user.isSuperuser || ['ADMIN', 'STAFF'].includes(user.role);
   if (!isAdminOrStaff) {
     return { error: 'You do not have permission to perform this action.', status: 403 };
   }

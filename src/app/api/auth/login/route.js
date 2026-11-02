@@ -10,7 +10,7 @@ export async function POST(request) {
 
     if (!email || !password) {
       return NextResponse.json(
-        { non_field_errors: ['Both email and password are required.'] },
+        { error: 'Both email and password are required.' },
         { status: 400 }
       );
     }
@@ -23,23 +23,32 @@ export async function POST(request) {
 
     if (!user) {
       return NextResponse.json(
-        { non_field_errors: ['Invalid email or password.'] },
+        { error: 'Invalid email or password.' },
         { status: 400 }
       );
     }
 
     if (!user.isActive) {
       return NextResponse.json(
-        { non_field_errors: ['User account is disabled.'] },
-        { status: 400 }
+        { error: 'User account is disabled.' },
+        { status: 403 }
       );
     }
 
     const isValid = verifyPassword(password, user.password);
     if (!isValid) {
       return NextResponse.json(
-        { non_field_errors: ['Invalid email or password.'] },
+        { error: 'Invalid email or password.' },
         { status: 400 }
+      );
+    }
+
+    const isAdminOrStaff =
+      user.isStaff || user.isSuperuser || ['ADMIN', 'STAFF'].includes(user.role);
+    if (!isAdminOrStaff) {
+      return NextResponse.json(
+        { error: 'Access restricted to administrators only.' },
+        { status: 403 }
       );
     }
 
@@ -54,20 +63,32 @@ export async function POST(request) {
     const userData = {
       id: Number(user.id),
       email: user.email,
-      first_name: user.firstName,
-      last_name: user.lastName,
-      phone: user.phone,
+      firstName: user.firstName,
+      lastName: user.lastName,
       role: user.role,
-      full_name: `${user.firstName} ${user.lastName}`.trim() || user.email.split('@')[0],
-      is_staff: user.isStaff,
-      is_superuser: user.isSuperuser,
-      created_at: user.createdAt,
+      fullName: `${user.firstName} ${user.lastName}`.trim() || user.email.split('@')[0],
+      isStaff: user.isStaff,
+      isSuperuser: user.isSuperuser,
     };
 
-    return NextResponse.json({
+    const response = NextResponse.json({
+      success: true,
       user: userData,
       tokens,
     });
+
+    // Set secure cookie for server components and protected navigation
+    response.cookies.set({
+      name: 'tapcard_admin_token',
+      value: tokens.access,
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      path: '/',
+      maxAge: 7 * 24 * 60 * 60, // 7 days
+    });
+
+    return response;
   } catch (error) {
     console.error('Login error:', error);
     return NextResponse.json(
